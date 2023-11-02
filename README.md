@@ -36,7 +36,7 @@ To get started with Broda-man, follow these simple steps:
 
 1. Clone this repository to your local machine:
    ```shell
-   git clone https://github.com/your-username/broda-man.git
+   git clone https://github.com/Blaqadonis/broda-man.git
 2. Install the required dependencies. You'll need Python, so make sure you have it installed.
    Create a virtual environment with Conda.
    Edit ```<env_name>``` and ```3.X.X``` with environment name and python version of choice:
