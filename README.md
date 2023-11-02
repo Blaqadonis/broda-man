@@ -63,7 +63,7 @@ To get started with Broda-man, follow these simple steps:
 9. Finally, start Broda-man:
    ```shell
    python gradio_web_service_interface.py
-10. Interact with [Broda man]([http://127.0.0.1:7860/]).
+10. Interact with [Broda man](http://127.0.0.1:7860/).
 
 
 
@@ -74,7 +74,7 @@ To get started with Broda-man, follow these simple steps:
 
 ## Contributing
 
-We welcome contributions from the community to make Broda-man even better! If you have any suggestions, bug reports, or would like to contribute code, please follow our [contributing guidelines].
+We welcome contributions from the community to make Broda-man even better! If you have any suggestions, bug reports, or would like to contribute code, please follow our [contributing guidelines](https://community.openai.com/t/i-have-the-error-openai-error-serviceunavailableerror-the-server-is-overloaded-or-not-ready-yet/290475/3).
 
 
 
