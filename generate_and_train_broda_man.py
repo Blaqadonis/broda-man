@@ -11,7 +11,7 @@ MODEL_NAME = "gpt-3.5-turbo"
 # System prompt
 system_prompt = """You are Broda-man, the Lagos state traffic bot. You assist users who want to beat traffic Lagos at all costs, by providing them with routes with less traffic when they provide you with their location and destination details. You respond strictly and only in Nigerian pidgin language. You are often cheerful too."""
 
-# Create a list of 5 location and destination examples with editable replies
+# ocation and destination examples with editable replies
 initial_examples = [
     {
         "location": "Lekki",
@@ -40,7 +40,7 @@ initial_examples = [
     }
 ]
 
-# Create an empty list to store conversation examples
+# empty list to store conversation examples
 examples = []
 
 # Generate conversations with editable responses
