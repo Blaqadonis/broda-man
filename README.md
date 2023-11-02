@@ -1,6 +1,6 @@
  # Broda-man
 
-Broda-man is your cheerful assistant for beating traffic in Lagos State. Get real-time traffic advice and directions in Nigerian pidgin English.
+This project is my first shot at building a Large Language Model-powered application. Broda-man is your cheerful assistant for beating traffic in Lagos State. Get real-time traffic advice and directions in Nigerian pidgin English. (Nov. 2023)
 
 ![broda-man](https://github.com/Blaqadonis/broda-man/assets/100685852/df9e6402-c88f-4a56-96e9-6555e612547e)
 ## powered by 🅱🅻🅰🆀
