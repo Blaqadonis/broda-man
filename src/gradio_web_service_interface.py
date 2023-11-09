@@ -6,7 +6,7 @@ import os
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
 # Import the fine-tuning job ID from the environment
-model_id = "ft:gpt-3.5-turbo-0613:personal:broda-man:8GEGXgli"
+model_id = "ft:gpt-3.5-turbo-0613:personal:broda-man:8J4pz8Md"
 
 # Function to generate completions
 def generate_completion(location, destination):

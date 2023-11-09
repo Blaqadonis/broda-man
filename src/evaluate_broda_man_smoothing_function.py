@@ -2,7 +2,7 @@ import openai
 import wandb
 import os
 import json
-from nltk.translate.bleu_score import sentence_bleu
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 
 # Set your OpenAI API key
 openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -33,21 +33,15 @@ for example in evaluation_data:
     response = openai.ChatCompletion.create(
         model=model_id,
         messages=user_messages,
-        max_tokens=50  # Adjust max tokens as needed
+        max_tokens=100  # Adjust max tokens as needed
     )
 
     model_output = response['choices'][0]['message']['content'].strip()
 
-    # Print reference and candidate
-    print("Reference:", expected_reply)
-    print("Candidate:", model_output)
-
-    # Calculate the BLEU score
+    # Calculate the BLEU score with smoothing
     reference = [expected_reply.split()]  # Convert expected output to a list of words
     candidate = model_output.split()
-
-    # Compute BLEU score
-    bleu_score = sentence_bleu(reference, candidate)
+    bleu_score = sentence_bleu(reference, candidate, smoothing_function=SmoothingFunction().method1)
 
     # Log results to Weights & Biases
     wandb.log({
@@ -64,8 +58,7 @@ for example in evaluation_data:
         "BLEU_score": bleu_score,
     })
 
-# Calculate and log aggregated evaluation metrics (if applicable)
-# You can add more metrics calculation here.
+# Calculate and log aggregated evaluation metrics 
 
 # Save evaluation results to a JSON file
 with open("evaluation_results.json", "w") as f:
