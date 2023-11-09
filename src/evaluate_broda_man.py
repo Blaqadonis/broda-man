@@ -64,8 +64,7 @@ for example in evaluation_data:
         "BLEU_score": bleu_score,
     })
 
-# Calculate and log aggregated evaluation metrics (if applicable)
-# You can add more metrics calculation here.
+# Calculate and log aggregated evaluation metrics 
 
 # Save evaluation results to a JSON file
 with open("evaluation_results.json", "w") as f:

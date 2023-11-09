@@ -9,7 +9,7 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 # Set up WandB project and run
 wandb.init(project="evaluation-dataset")
 
-# Define the locations and destinations for evaluation
+# locations and destinations for evaluation
 evaluation_data = [
     {"location": "Ikeja", "destination": "National Stadium"},
     {"location": "Lekki", "destination": "Ojo"},
@@ -31,7 +31,7 @@ evaluation_data = [
     {"location": "Ojo Barracks", "destination": "Trade-Fair"}
 ]
 
-# Create an empty list to store evaluation examples
+# An empty list to store evaluation examples
 evaluation_examples = []
 
 # Generate conversations for evaluation
@@ -45,7 +45,6 @@ for data in evaluation_data:
     ]
 
     # Modify the expected assistant reply for each location-destination pair
-    # Add your own replies here
     expected_reply = ""
 
     if location == "Ikeja" and destination == "National Stadium":
