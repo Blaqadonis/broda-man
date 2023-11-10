@@ -13,18 +13,26 @@ permissions:
 jobs:
   eval-use-service:
     runs-on: windows-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.10.0
 
-      - name: Parse Model ID from Comment
-        id: parse-model-id
+      - name: Install Dependencies
         run: |
           pip install gradio
           pip install openai
           pip install wandb
           pip install nltk
+
+      - name: Parse Model ID from Comment
+        id: parse-model-id
+        run: |
           $comment_body = "${{ github.event.comment.body }}"
           $model_id_regex = "/broda-man ft:gpt-3\.5-turbo-0613:personal:broda-man:\S+"
           if ($comment_body -match $model_id_regex) {
@@ -35,9 +43,7 @@ jobs:
       - name: Use Broda-man
         run: |
           echo "Job succeeded! Model ID is $MODEL_ID"
-          $env:BRODAMAN_FINETUNE_MODEL_ID = $MODEL_ID
-          $env:BRODAMAN_FINETUNE_JOB_ID = [System.Environment]::GetEnvironmentVariable("BRODAMAN_FINETUNE_JOB_ID")
-          python src/gradio_web_service_interface.py
+          python src/app.py
 
       - name: Make Comment on GitHub
         uses: actions/github-script@v6
