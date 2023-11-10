@@ -50,9 +50,13 @@ iface = gr.Interface(
 
 # Define a function to run Gradio and return the share URL
 def run_gradio():
-    share_url = iface.share()
-    print(f"Gradio interface is live at: {share_url}")
-    sys.stdout.flush()
+    try:
+        share_url = iface.share()
+        print(f"Gradio interface is live at: {share_url}")
+        sys.stdout.flush()
+    except Exception as e:
+        print(f"Error starting Gradio: {e}")
+        sys.stdout.flush()
 
 # Create a thread to run Gradio
 gradio_thread = threading.Thread(target=run_gradio)
@@ -65,14 +69,13 @@ gradio_thread.start()
 
 # Save the share URL to a file for later use
 with open("gradio_share_url.json", "w") as url_file:
-    json.dump({"share_url": iface.share()}, url_file)
+    json.dump({"share_url": iface.share_url}, url_file)
 
 # Provide a delay to keep the workflow running (adjust as needed)
 for _ in range(30):
     print("Waiting...")
     sys.stdout.flush()
     time.sleep(10)
-
 
 # Wait for the Gradio thread to finish
 gradio_thread.join()
