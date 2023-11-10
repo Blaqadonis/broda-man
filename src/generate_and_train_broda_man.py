@@ -4,9 +4,8 @@ import openai
 from random import choice
 import wandb
 
-# Weights & Biases API key and login
-wandb.api_key=os.getenv("WANDB_API_KEY")
-wandb.login(key=wandb.api_key)
+# Set up Weights & Biases API key and login
+wandb.login(key=os.getenv("WANDB_API_KEY"))
 
 # Set up wandb project and initialize a run
 wandb.init(project="broda-man-finetuning")
