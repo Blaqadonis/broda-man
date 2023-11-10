@@ -29,14 +29,12 @@ jobs:
           pip install -r requirements.txt
           pip install ghapi
 
-      - name: Set Secrets
-        run: |
-          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
-          echo "WANDB_API_KEY=${{ secrets.WANDB_API_KEY }}" >> $GITHUB_ENV
-
       - name: Generate and Train Broda-man
         id: generate-train
         run: python src/generate_and_train_broda_man.py
+        env:
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
       - name: Check Job Status
         id: job-status
