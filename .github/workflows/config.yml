@@ -1,4 +1,4 @@
-name: Broda-man CI/CD
+name: Broda-man Setup
 
 on:
   push:
@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  ci-cd-job:
+  setup-job:
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
@@ -28,17 +28,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Parse Model ID from Comment
-        id: parse-model-id
-        run: |
-          comment_body="${{ github.event.comment.body }}"
-          model_id_regex="/broda-man ft:gpt-3\.5-turbo-0613:personal:broda-man:\S+"
-          if [[ $comment_body =~ $model_id_regex ]]; then
-            model_id="${BASH_REMATCH[0]#'/broda-man '}"  # Remove the prefix
-            echo "::set-env name=MODEL_ID::${model_id}"
-          fi
-
       - name: Generate and Train Broda-man
+        id: generate-train
         run: python src/generate_and_train_broda_man.py
 
       - name: Check Job Status
@@ -47,32 +38,8 @@ jobs:
           status=$(python src/job_status.py)
           echo "::set-output name=status::$status"
 
-  continue-with-the-rest:
-    if: >
-      github.event_name == 'issue_comment' &&
-      github.event.action == 'created' &&
-      github.event.issue.pull_request != null &&
-      needs.ci-cd-job.outputs.status == 'succeeded'
-    runs-on: windows-latest
-
-    steps:
-      - name: Continue with Scripts
+      - name: Set Model ID Output
+        if: steps.job-status.outputs.status == 'succeeded'
         run: |
-          echo "Job succeeded! Model ID is $MODEL_ID"
-          export BRODAMAN_FINETUNE_MODEL_ID=$MODEL_ID
-          export BRODAMAN_FINETUNE_JOB_ID=$JOB_ID
-          python src/gen_eval_dataset.py
-          python src/evaluate_broda_man_smoothing_function.py
-          python src/gradio_web_service_interface.py
-
-      - name: Make Comment on GitHub
-        uses: actions/github-script@v6
-        with:
-          script: |
-            var msg = `Broda-man is ready. You can interact with the service [here](http://127.0.0.1:7860?model_id=${process.env.BRODAMAN_FINETUNE_MODEL_ID})`;
-            github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: msg
-            })
+          model_id=$(cat model_id.txt)
+          echo "::set-output name=model_id::$model_id"
