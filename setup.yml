@@ -1,0 +1,59 @@
+name: Broda-man service
+
+on:
+  issue_comment:
+    types:
+      - created
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  eval-use-service:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.10.0
+
+      - name: Install Dependencies
+        run: |
+          pip install gradio
+          pip install openai
+          pip install wandb
+          pip install nltk
+
+      - name: Parse Model ID from Comment
+        id: parse-model-id
+        run: |
+          $comment_body = "${{ github.event.comment.body }}"
+          $model_id_regex = "/broda-man ft:gpt-3\.5-turbo-0613:personal:broda-man:\S+"
+          if ($comment_body -match $model_id_regex) {
+            $model_id = $matches[0] -replace '/broda-man ', ''  # Remove the prefix
+            echo "MODEL_ID=${model_id}" >> $GITHUB_ENV
+          }
+
+      - name: Use Broda-man
+        run: |
+          echo "Job succeeded! Model ID is $MODEL_ID"
+          python src/gen_eval_dataset.py
+          python src/evaluate_broda_man_wandb.py
+
+      - name: Make Comment on GitHub
+        uses: actions/github-script@v6
+        with:
+          script: |
+            $msg = "Broda-man is ready. You can interact with the service [here](http://127.0.0.1:7860?model_id=${env:BRODAMAN_FINETUNE_MODEL_ID})"
+            github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: $msg
+            })

@@ -1,4 +1,4 @@
-name: Broda-man service
+name: Listening For a PR Comment for Broda-man
 
 on:
   issue_comment:
@@ -11,7 +11,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  eval-use-service:
+  evaluate-the-new-model:
     runs-on: windows-latest
 
     steps:
@@ -40,19 +40,28 @@ jobs:
             echo "MODEL_ID=${model_id}" >> $GITHUB_ENV
           }
 
-      - name: Use Broda-man
+      - name: Run the evaluation script
         run: |
-          echo "Job succeeded! Model ID is $MODEL_ID"
-          python src/app.py
+          echo "Model ID is $MODEL_ID"
+          python src/gen_eval_dataset.py
+          python src/evaluate_broda_man_wandb.py
+
+          # Export WandB variables from environment
+          echo "WANDB_ENTITY=${{ env.WANDB_ENTITY }}" >> $GITHUB_ENV
+          echo "WANDB_PROJECT=${{ env.WANDB_PROJECT }}" >> $GITHUB_ENV
+          echo "WANDB_API_KEY=${{ secrets.WANDB_API_KEY }}" >> $GITHUB_ENV
+
+          # Log the WandB link to the environment variable
+          echo "REPORT_URL=$(wandb run get_url)" >> $GITHUB_ENV
 
       - name: Make Comment on GitHub
         uses: actions/github-script@v6
         with:
           script: |
-            $msg = "Broda-man is ready. You can interact with the service [here](http://127.0.0.1:7860?model_id=${env:BRODAMAN_FINETUNE_MODEL_ID})"
+            $gh_comment = "WandB report for the new Broda-man model evaluation: [WandB Report](${env:REPORT_URL})"
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: $msg
+              body: $gh_comment
             })

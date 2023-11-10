@@ -83,4 +83,9 @@ with open("evaluation_dataset.jsonl", "w") as jsonl_file:
         json.dump(example, jsonl_file)
         jsonl_file.write("\n")
 
+# Log the evaluation dataset to WandB
+artifact = wandb.Artifact(name="evaluation_dataset", type="dataset")
+artifact.add_file("evaluation_dataset.jsonl")
+wandb.run.log_artifact(artifact)
+
 print(f"Evaluation dataset saved to 'evaluation_dataset.jsonl' with {len(evaluation_examples)} examples.")
