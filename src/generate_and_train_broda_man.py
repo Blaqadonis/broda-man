@@ -4,7 +4,6 @@ import openai
 from random import choice
 import wandb
 
-
 # Set up Weights & Biases API key and login
 key=os.getenv("WANDB_API_KEY")
 wandb.login(key=key)
@@ -13,7 +12,7 @@ wandb.login(key=key)
 wandb.init(project="broda-man-finetuning")
 
 # OpenAI API key
-openai.api_key = os.environ["OPENAI_API_KEY"]
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # model name
 MODEL_NAME = "gpt-3.5-turbo"
