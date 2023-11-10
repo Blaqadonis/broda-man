@@ -13,14 +13,14 @@ permissions:
 
 jobs:
   ci-cd-job:
-    runs-on: windows
+    runs-on: windows-latest
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: 3.10
 
@@ -28,7 +28,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          
+
       - name: Generate and Train Broda-man
         run: python src/generate_and_train_broda_man.py
 
@@ -38,8 +38,17 @@ jobs:
           status=$(python src/job_status.py)
           echo "::set-output name=status::$status"
 
+  continue-with-the-rest:
+    if: >
+      github.event_name == 'issue_comment' &&
+      github.event.action == 'created' &&
+      github.event.issue.pull_request != null &&
+      contains(github.event.comment.body, '/broda-man') &&
+      needs.ci-cd-job.outputs.status == 'succeeded'
+    runs-on: windows-latest
+
+    steps:
       - name: Continue with Scripts
-        if: steps.job-status.outputs.status == 'succeeded'
         run: |
           echo "Job succeeded! Model ID is $MODEL_ID"
           export BRODAMAN_FINETUNE_MODEL_ID=$MODEL_ID
@@ -49,11 +58,10 @@ jobs:
           python src/gradio_web_service_interface.py
 
       - name: Make Comment on GitHub
-        if: steps.job-status.outputs.status == 'succeeded'
         uses: actions/github-script@v6
         with:
           script: |
-            var msg = `Broda-man is ready. You can interact with the service [here](https://http://localhost:7860?model_id=${process.env.BRODAMAN_FINETUNE_MODEL_ID})`;
+            var msg = `Broda-man is ready. You can interact with the service [here](http://127.0.0.1:7860?model_id=${process.env.BRODAMAN_FINETUNE_MODEL_ID})`;
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
