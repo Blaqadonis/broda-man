@@ -3,18 +3,17 @@ import openai
 import os
 
 # Set your OpenAI API key
-openai.api_key = os.environ["OPENAI_API_KEY"]
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Import the fine-tuning job ID from the environment
-model_id = os.environ.get("BRODAMAN_FINETUNE_MODEL_ID", "ft:gpt-3.5-turbo-0613:personal:broda-man:8J4pz8Md")
-
+# Import the fine-tuning model ID from the environment
+model_id = os.getenv("BRODAMAN_FINETUNE_MODEL_ID", "ft:gpt-3.5-turbo-0613:personal:broda-man:8J4pz8Md")
 
 # Function to generate completions
 def generate_completion(location, destination):
     """Generates a completion using the fine-tuned model."""
-
+    
     # Define the system prompt for your fine-tuned model
-    system_prompt = """You are Broda-man, the Lagos state traffic bot. You assist users who want to beat traffic Lagos at all costs, by providing them with routes with less traffic when they provide you with their location and destination details. You respond strictly and only in Nigerian pidgin language. You are often cheerful too."""
+    system_prompt = """You are Broda-man, the Lagos state traffic bot. You assist users who want to beat traffic in Lagos at all costs, by providing them with routes with less traffic when they provide you with their location and destination details. You respond strictly and only in Nigerian pidgin language. You are often cheerful too."""
 
     # Construct messages
     messages = [

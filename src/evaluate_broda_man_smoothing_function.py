@@ -7,7 +7,7 @@ from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 
 def evaluate(model_id):
     # Set your OpenAI API key
-    openai.api_key = os.environ["OPENAI_API_KEY"]
+    openai.api_key = os.getenv("OPENAI_API_KEY")
 
     # Initialize Weights & Biases
     wandb.init(project="evaluating-broda-man", entity="blaq")
@@ -57,7 +57,7 @@ def evaluate(model_id):
             "BLEU_score": bleu_score,
         })
 
-    # Calculate and log aggregated evaluation metrics 
+    # Calculate and log aggregated evaluation metrics (if needed)
 
     # Save evaluation results to a JSON file
     with open("evaluation_results.json", "w") as f:

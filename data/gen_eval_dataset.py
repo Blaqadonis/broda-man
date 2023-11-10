@@ -1,10 +1,11 @@
 import json
-import openai
 import os
+import getpass
 import wandb
+import openai
 
-# Set your OpenAI API key from an environment variable
-openai.api_key = os.environ["OPENAI_API_KEY"]
+# Set your OpenAI API key using getpass
+openai.api_key = getpass.getpass("Paste your OpenAI Key from: https://platform.openai.com/account/api-keys\n")
 
 # Set up WandB project and run
 wandb.init(project="evaluation-dataset")

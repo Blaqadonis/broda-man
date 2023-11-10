@@ -1,7 +1,6 @@
 name: Broda-man CI/CD
 
 on:
-  push:
   issue_comment:
     types:
       - created
@@ -38,25 +37,7 @@ jobs:
             echo "::set-env name=MODEL_ID::${model_id}"
           fi
 
-      - name: Generate and Train Broda-man
-        run: python src/generate_and_train_broda_man.py
-
-      - name: Check Job Status
-        id: job-status
-        run: |
-          status=$(python src/job_status.py)
-          echo "::set-output name=status::$status"
-
-  continue-with-the-rest:
-    if: >
-      github.event_name == 'issue_comment' &&
-      github.event.action == 'created' &&
-      github.event.issue.pull_request != null &&
-      needs.ci-cd-job.outputs.status == 'succeeded'
-    runs-on: windows-latest
-
-    steps:
-      - name: Continue with Scripts
+      - name: Execute CI/CD Pipeline
         run: |
           echo "Job succeeded! Model ID is $MODEL_ID"
           export BRODAMAN_FINETUNE_MODEL_ID=$MODEL_ID
