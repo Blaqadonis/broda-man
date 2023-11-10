@@ -1,4 +1,4 @@
-name: Broda-man CI/CD
+name: Broda-man service
 
 on:
   issue_comment:
@@ -27,7 +27,7 @@ jobs:
             echo "MODEL_ID=${model_id}" >> $GITHUB_ENV
           }
 
-      - name: Execute CI/CD Pipeline
+      - name: Evaluate and use Broda-man
         run: |
           echo "Job succeeded! Model ID is $MODEL_ID"
           $env:BRODAMAN_FINETUNE_MODEL_ID = $MODEL_ID
