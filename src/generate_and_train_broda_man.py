@@ -5,7 +5,8 @@ from random import choice
 import wandb
 
 # Set up Weights & Biases API key and login
-key=os.environ("WANDB_API_KEY")
+#key=os.environ("WANDB_API_KEY")
+key= "be98650727c4d575bfe639caaec22440f405a24b"
 wandb.login(key=key)
 
 # Set up wandb project and initialize a run

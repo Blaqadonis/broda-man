@@ -2,4 +2,3 @@ openai==0.28  #latest version does not support some functions used in this work 
 wandb
 nltk
 gradio
-ghapi
