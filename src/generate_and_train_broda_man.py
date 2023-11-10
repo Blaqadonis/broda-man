@@ -14,7 +14,7 @@ wandb.init(project="broda-man-finetuning")
 
 # OpenAI API key
 #openai.api_key = os.environ["OPENAI_API_KEY"]
-openai.api_key = "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"
+openai.api_key = "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"
 
 # model name
 MODEL_NAME = "gpt-3.5-turbo"
