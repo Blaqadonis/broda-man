@@ -27,6 +27,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install ghapi
+          pip install gradio
 
       - name: Generate and Train Broda-man
         id: generate-train
