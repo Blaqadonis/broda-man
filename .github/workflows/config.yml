@@ -41,8 +41,9 @@ jobs:
       - name: Check Job Status
         id: job-status
         run: |
-          $status = & python.exe src/job_status.py
-          echo "::set-output name=status::$status"
+            $status = python.exe src/job_status.py
+            echo "::set-output name=status::$status"
+        
 
       - name: Set Model ID Output
         if: steps.job-status.outputs.status == 'succeeded'
