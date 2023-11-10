@@ -3,7 +3,7 @@ import json
 import openai
 from random import choice
 import wandb
-import getpass  # Add this import for getpass
+import getpass  
 
 # Set up Weights & Biases API key and login
 wandb.login(key=os.getenv("WANDB_API_KEY"))
