@@ -1,4 +1,5 @@
-openai==0.28
+openai==0.28  #latest version does not support some functions used in this work like openai.File.create()
 wandb
 nltk
 gradio
+ghapi
