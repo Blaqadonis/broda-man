@@ -26,6 +26,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          import os
 
       - name: Parse Model ID from Comment
         id: parse-model-id
@@ -34,14 +35,14 @@ jobs:
           model_id_regex="/broda-man ft:gpt-3\.5-turbo-0613:personal:broda-man:\S+"
           if [[ $comment_body =~ $model_id_regex ]]; then
             model_id="${BASH_REMATCH[0]#'/broda-man '}"  # Remove the prefix
-            echo "::set-env name=MODEL_ID::${model_id}"
+            echo "MODEL_ID=${model_id}" >> $GITHUB_ENV
           fi
 
       - name: Execute CI/CD Pipeline
         run: |
           echo "Job succeeded! Model ID is $MODEL_ID"
           export BRODAMAN_FINETUNE_MODEL_ID=$MODEL_ID
-          export BRODAMAN_FINETUNE_JOB_ID=$JOB_ID
+          export BRODAMAN_FINETUNE_JOB_ID=$(os.getenv(BRODAMAN_FINETUNE_JOB_ID))
           python src/gen_eval_dataset.py
           python src/evaluate_broda_man_smoothing_function.py
           python src/gradio_web_service_interface.py

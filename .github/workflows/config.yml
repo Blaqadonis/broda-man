@@ -2,6 +2,8 @@ name: Broda-man Setup
 
 on:
   push:
+    branches:
+      - main
 
 permissions:
   contents: read
