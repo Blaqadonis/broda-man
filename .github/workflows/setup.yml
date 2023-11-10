@@ -20,18 +20,18 @@ jobs:
       - name: Parse Model ID from Comment
         id: parse-model-id
         run: |
-          comment_body="${{ github.event.comment.body }}"
-          model_id_regex="/broda-man ft:gpt-3\.5-turbo-0613:personal:broda-man:\S+"
-          if [[ $comment_body =~ $model_id_regex ]]; then
-            model_id="${BASH_REMATCH[0]#'/broda-man '}"  # Remove the prefix
+          $comment_body = "${{ github.event.comment.body }}"
+          $model_id_regex = "/broda-man ft:gpt-3\.5-turbo-0613:personal:broda-man:\S+"
+          if ($comment_body -match $model_id_regex) {
+            $model_id = $matches[0] -replace '/broda-man ', ''  # Remove the prefix
             echo "MODEL_ID=${model_id}" >> $GITHUB_ENV
-          fi
+          }
 
       - name: Execute CI/CD Pipeline
         run: |
           echo "Job succeeded! Model ID is $MODEL_ID"
-          export BRODAMAN_FINETUNE_MODEL_ID=$MODEL_ID
-          export BRODAMAN_FINETUNE_JOB_ID=$(os.getenv(BRODAMAN_FINETUNE_JOB_ID))
+          $env:BRODAMAN_FINETUNE_MODEL_ID = $MODEL_ID
+          $env:BRODAMAN_FINETUNE_JOB_ID = [System.Environment]::GetEnvironmentVariable("BRODAMAN_FINETUNE_JOB_ID")
           python src/gen_eval_dataset.py
           python src/evaluate_broda_man_smoothing_function.py
           python src/gradio_web_service_interface.py
@@ -40,10 +40,10 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            var msg = `Broda-man is ready. You can interact with the service [here](http://127.0.0.1:7860?model_id=${process.env.BRODAMAN_FINETUNE_MODEL_ID})`;
+            $msg = "Broda-man is ready. You can interact with the service [here](http://127.0.0.1:7860?model_id=${env:BRODAMAN_FINETUNE_MODEL_ID})"
             github.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: msg
+              body: $msg
             })
