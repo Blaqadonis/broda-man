@@ -1,0 +1,62 @@
+
+OpenAI API key configured
+Traceback (most recent call last):
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\urllib3\connectionpool.py", line 466, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\urllib3\connectionpool.py", line 461, in _make_request
+    httplib_response = conn.getresponse()
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\http\client.py", line 1375, in getresponse
+    response.begin()
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\http\client.py", line 318, in begin
+    version, status, reason = self._read_status()
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\http\client.py", line 279, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\socket.py", line 705, in readinto
+    return self._sock.recv_into(b)
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\ssl.py", line 1274, in recv_into
+    return self.read(nbytes, buffer)
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\ssl.py", line 1130, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: The read operation timed out
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\requests\adapters.py", line 486, in send
+    resp = conn.urlopen(
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\urllib3\connectionpool.py", line 798, in urlopen
+    retries = retries.increment(
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\urllib3\util\retry.py", line 550, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\urllib3\packages\six.py", line 770, in reraise
+    raise value
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\urllib3\connectionpool.py", line 714, in urlopen
+    httplib_response = self._make_request(
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\urllib3\connectionpool.py", line 468, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\urllib3\connectionpool.py", line 357, in _raise_timeout
+    raise ReadTimeoutError(
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=600)
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\openai\api_requestor.py", line 596, in request_raw
+    result = _thread_context.session.request(
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\requests\sessions.py", line 589, in request
+    resp = self.send(prep, **send_kwargs)
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\requests\sessions.py", line 703, in send
+    r = adapter.send(request, **kwargs)
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\requests\adapters.py", line 532, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=600)
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "C:\Users\Odiaka\world\Data_Science\Datasets\broda-man\src\generate_and_train_broda_man.py", line 95, in <module>
+    response = openai.ChatCompletion.create(
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\openai\api_resources\chat_completion.py", line 25, in create
+    return super().create(*args, **kwargs)
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\openai\api_resources\abstract\engine_api_resource.py", line 153, in create
+    response, _, api_key = requestor.request(
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\openai\api_requestor.py", line 288, in request
+    result = self.request_raw(
+  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\openai\api_requestor.py", line 607, in request_raw
+    raise error.Timeout("Request timed out: {}".format(e)) from e
+openai.error.Timeout: Request timed out: HTTPSConnectionPool(host='api.openai.com', port=443): Read timed out. (read timeout=600)

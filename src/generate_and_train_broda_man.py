@@ -3,16 +3,23 @@ import json
 import openai
 from random import choice
 import wandb
+import getpass  # Add this import for getpass
 
 # Set up Weights & Biases API key and login
-key=os.getenv("WANDB_API_KEY")
-wandb.login(key=key)
+wandb.login(key=os.getenv("WANDB_API_KEY"))
 
 # Set up wandb project and initialize a run
 wandb.init(project="broda-man-finetuning")
 
 # OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+if os.getenv("OPENAI_API_KEY") is None:
+    if any(['VSCODE' in x for x in os.environ.keys()]):
+        print('Please enter password in the VS Code prompt at the top of your VS Code window!')
+    os.environ["OPENAI_API_KEY"] = getpass.getpass("Paste your OpenAI Key from: https://platform.openai.com/account/api-keys\n")
+    openai.api_key = os.getenv("OPENAI_API_KEY", "")
+
+assert os.getenv("OPENAI_API_KEY", "").startswith("sk-"), "This doesn't look like a valid OpenAI API key"
+print("OpenAI API key configured")
 
 # model name
 MODEL_NAME = "gpt-3.5-turbo"
