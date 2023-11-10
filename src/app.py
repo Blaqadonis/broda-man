@@ -4,6 +4,7 @@ import os
 import threading
 import time
 import sys
+import json
 
 # Set your OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -44,13 +45,13 @@ iface = gr.Interface(
     ],
     outputs="text",
     title="Ask Broda-man! Your Friendly Transport Route Bot",
-    live=True,
+    live=False,  # Set live to False to use share
 )
 
-# Define a function to run Gradio in a separate thread
+# Define a function to run Gradio and return the share URL
 def run_gradio():
-    iface.launch()
-    print("Gradio interface launched successfully.")
+    share_url = iface.share()
+    print(f"Gradio interface is live at: {share_url}")
     sys.stdout.flush()
 
 # Create a thread to run Gradio
@@ -59,9 +60,14 @@ gradio_thread = threading.Thread(target=run_gradio)
 # Start the Gradio thread
 gradio_thread.start()
 
+# Add additional processing or wait logic if needed
+# ...
 
+# Save the share URL to a file for later use
+with open("gradio_share_url.json", "w") as url_file:
+    json.dump({"share_url": iface.share()}, url_file)
 
-# delay to keep the workflow running (adjust as needed)
+# Provide a delay to keep the workflow running (adjust as needed)
 for _ in range(30):
     print("Waiting...")
     sys.stdout.flush()
