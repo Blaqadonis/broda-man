@@ -2,9 +2,6 @@ name: Broda-man Setup
 
 on:
   push:
-  issue_comment:
-    types:
-      - created
 
 permissions:
   contents: read
@@ -35,18 +32,3 @@ jobs:
         env:
           WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-
-
-
-      - name: Check Job Status
-        id: job-status
-        run: |
-            $status = python.exe src/job_status.py
-            echo "::set-output name=status::$status"
-        
-
-      - name: Set Model ID Output
-        if: steps.job-status.outputs.status == 'succeeded'
-        run: |
-          model_id=$(cat model_id.txt)
-          echo "::set-output name=model_id::$model_id"
