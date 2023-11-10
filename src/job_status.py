@@ -18,6 +18,7 @@ job_id = os.environ["BRODAMAN_FINETUNE_JOB_ID"]
 # Check the status of the fine-tuning job
 job = openai.FineTuningJob.retrieve(id=job_id)
 
+
 # Print the status
 print("Job Status:", job.status)
 print("Model ID:", job.model)
