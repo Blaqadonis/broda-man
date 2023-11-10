@@ -1,0 +1,53 @@
+{
+    "os": "Windows-10-10.0.22621-SP0",
+    "python": "3.10.11",
+    "heartbeatAt": "2023-11-10T11:51:17.245219",
+    "startedAt": "2023-11-10T11:51:13.120552",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "C:\\Users\\Odiaka\\world\\Data_Science\\Datasets\\broda-man\\src\\generate_and_train_broda_man.py",
+    "codePathLocal": "src\\generate_and_train_broda_man.py",
+    "codePath": "src\\generate_and_train_broda_man.py",
+    "git": {
+        "remote": "https://github.com/Blaqadonis/broda-man.git",
+        "commit": "14fc30e5e6e723c916ce66e3a89d0abc4616c637"
+    },
+    "email": "chinonsoodiaka@gmail.com",
+    "root": "C:/Users/Odiaka/world/Data_Science/Datasets/broda-man",
+    "host": "MSI",
+    "username": "Odiaka",
+    "executable": "C:\\Users\\Odiaka\\miniconda3\\envs\\bisi10\\python.exe",
+    "cpu_count": 4,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 2496.0,
+        "min": 0.0,
+        "max": 2496.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 2496.0,
+            "min": 0.0,
+            "max": 2496.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 453.65429306030273,
+            "used": 397.6852722167969
+        }
+    },
+    "gpu": "NVIDIA GeForce GTX 1650",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce GTX 1650",
+            "memory_total": 4294967296
+        }
+    ],
+    "memory": {
+        "total": 15.826068878173828
+    }
+}
