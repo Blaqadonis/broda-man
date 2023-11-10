@@ -5,7 +5,7 @@ from random import choice
 import wandb
 
 # Weights & Biases API key
-wandb.api_key = os.environ["WANDB_API_KEY"]
+wandb.api_key = os.getenv("WANDB_API_KEY")
 
 # Set up wandb project and initialize a run
 wandb.init(project="broda-man-finetuning")
