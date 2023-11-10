@@ -6,7 +6,7 @@ import wandb
 
 # Weights & Biases API key and login
 wandb.api_key=os.getenv("WANDB_API_KEY")
-wandb.login()
+wandb.login(key=wandb.api_key)
 
 # Set up wandb project and initialize a run
 wandb.init(project="broda-man-finetuning")
