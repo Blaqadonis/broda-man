@@ -20,3 +20,6 @@ job = openai.FineTuningJob.retrieve(id=job_id)
 
 # Print the status
 print("Job Status:", job.status)
+print("Model ID:", job.model)
+
+
