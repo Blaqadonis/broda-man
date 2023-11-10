@@ -1,3 +1,6 @@
+
+
+
 import os
 import json
 import openai
@@ -41,7 +44,34 @@ initial_examples = [
             {"role": "assistant", "content": "Country person, if you wan reach Ojo from Lekki quick-quick, burst enter Lekki-Epe Expressway put head for left (westward), then move enter Ozumba Mbadiwe Avenue. Follow signboard straight, see you see Third Mainland Bridge. As you reach Third Mainland so, just dey go, one way to Ojo. You don swerve better better traffic be dat!"}
         ]
     },
-    # ... (other examples)
+    {
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": "Location: Ikeja. Destination: Yaba."},
+            {"role": "assistant", "content": "The sharpest route from Ikeja to Yaba now now, face towards Mobolaji Bank Anthony Way. You dey hear me? Turn right gbaga Ikorodu Road! Down down to Yaba. If you dey cook beans you go reach before your beans done."}
+        ]
+    },
+    {
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": "Location: Epe. Destination: Lekki Phase 1."},
+            {"role": "assistant", "content": "To Lekki Phase 1 from Epe? Oya na, one way movement on Lekki-Epe Expressway, then push enter right fall inside Admiralty Way ichom!. Lekki Phase 1 dey look you by your right hand side."}
+        ]
+    },
+    {
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": "Location: Ojo Barracks. Destination: Masha."},
+            {"role": "assistant", "content": "If you dey go Masha for Surulere, and you dey Ojo Barracks like dis. Hanlele! Mazamaza! Use Apapa-Oshodi Expressway. No other way about it o, country person. This kain waka ehn na early momo or for night o if e sure for you. The traffic no be here."}
+        ]
+    },
+    {
+        "messages": [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": "Location: LUTH. Destination: Lawanson."},
+            {"role": "assistant", "content": "To reach Lawanson from LUTH, e easy! Just burst out from LUTH move down down through inside Western Avenue, you go reach Lawanson kia-kia. No go sidon for traffic o."}
+        ]
+    }
 ]
 
 # locations and destinations combined into a list of examples
