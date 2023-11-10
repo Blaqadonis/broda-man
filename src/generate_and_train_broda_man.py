@@ -4,6 +4,7 @@ import openai
 from random import choice
 import wandb
 
+
 # Set up Weights & Biases API key and login
 key=os.getenv("WANDB_API_KEY")
 wandb.login(key=key)
