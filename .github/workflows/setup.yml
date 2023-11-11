@@ -11,9 +11,9 @@ permissions:
   pull-requests: write
 
 jobs:
-  evaluate-the-new-model:
+  new-model-evaluation:
+    if: (github.event.issue.pull_request != null) && contains(github.event.comment.body, 'broda-man/')
     runs-on: windows-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -45,7 +45,7 @@ jobs:
             else:
               print(f'VAL_FOUND=false', file=f)
 
-              
+
       - name: Generate the evaluation report
         if: steps.parse-model-id.outputs.VAL_FOUND == 'true'
         id: new-model-evaluation-report
