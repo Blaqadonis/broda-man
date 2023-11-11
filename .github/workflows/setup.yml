@@ -25,7 +25,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install gradio
+          pip install ghapi
           pip install openai
           pip install wandb
           pip install nltk
