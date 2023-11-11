@@ -55,7 +55,7 @@ jobs:
 
       - name: Make Comment on GitHub
         uses: actions/github-script@v6
-        if: steps.wandb-report.outcome == 'success'
+        if: steps.new-model-evaluation-report.outcome == 'success'
         with:
           script: |
             var msg = `An evaluation of the new model for Broda-man is available [in this report](${process.env.WANDB_LINK})`
