@@ -42,17 +42,20 @@ jobs:
 
       - name: Run the evaluation script
         run: |
-          echo "Model ID is $MODEL_ID"
-          python src/gen_eval_dataset.py
-          python src/evaluate_broda_man_wandb.py
-
-          # Export WandB variables from environment
-          echo "WANDB_ENTITY=${{ env.WANDB_ENTITY }}" >> $GITHUB_ENV
-          echo "WANDB_PROJECT=${{ env.WANDB_PROJECT }}" >> $GITHUB_ENV
-          echo "WANDB_API_KEY=${{ secrets.WANDB_API_KEY }}" >> $GITHUB_ENV
-
-          # Log the WandB link to the environment variable
-          echo "REPORT_URL=$(wandb run get_url)" >> $GITHUB_ENV
+            echo "Model ID is $MODEL_ID"
+            pushd src
+            python gen_eval_dataset.py
+            python evaluate_broda_man_wandb.py
+            popd
+        
+            # Export WandB variables from environment
+            echo "WANDB_ENTITY=${{ env.WANDB_ENTITY }}" >> $GITHUB_ENV
+            echo "WANDB_PROJECT=${{ env.WANDB_PROJECT }}" >> $GITHUB_ENV
+            echo "WANDB_API_KEY=${{ secrets.WANDB_API_KEY }}" >> $GITHUB_ENV
+        
+            # Log the WandB link to the environment variable
+            echo "REPORT_URL=$(wandb run get_url)" >> $GITHUB_ENV
+        
 
       - name: Make Comment on GitHub
         uses: actions/github-script@v6
