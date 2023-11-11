@@ -36,15 +36,14 @@ jobs:
         run: |
           import re, os
           comment = os.getenv('BRODAMAN_COMMENT', '')
-          match = re.search('broda-man/ [\s+](\S+)', comment)
+          match = re.search(r'broda-man/(\S+)', comment)
 
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+          with open(os.environ['GITHUB_ENV'], 'a') as f:
             if match:
               print(f'VAL_FOUND=true', file=f)
               print(f'BRODAMAN_FINETUNE_MODEL_ID={match.group(1)}', file=f)
             else:
               print(f'VAL_FOUND=false', file=f)
-
 
       - name: Generate the evaluation report
         if: steps.parse-model-id.outputs.VAL_FOUND == 'true'
