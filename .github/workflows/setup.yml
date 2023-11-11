@@ -53,6 +53,7 @@ jobs:
           # Log the WandB link to the environment variable
           echo "WANDB_LINK=$(wandb run get_url)" >> $GITHUB_ENV
 
+          
       - name: Make Comment on GitHub
         uses: actions/github-script@v6
         with:
