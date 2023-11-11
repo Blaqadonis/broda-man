@@ -1,8 +1,8 @@
 import json
 import os
-import wandb
 import openai
 import getpass
+import wandb
 from nltk.translate.bleu_score import sentence_bleu
 
 # OpenAI API key for generating the evaluation dataset
@@ -18,7 +18,7 @@ print("OpenAI API key configured")
 # Set up WandB project and run for generating the evaluation dataset
 wandb.init(project="evaluation-dataset")
 
-# locations and destinations for evaluation
+# Locations and destinations for evaluation
 evaluation_data = [
     {"location": "Ikeja", "destination": "National Stadium"},
     {"location": "Lekki", "destination": "Ojo"},
@@ -98,7 +98,6 @@ wandb.run.log_artifact(artifact)
 
 print(f"Evaluation dataset saved to 'evaluation_dataset.jsonl' with {len(evaluation_examples)} examples.")
 
-
 # Now, proceed with the model evaluation
 
 # Import the fine-tuning model ID from the environment
@@ -145,31 +144,29 @@ for example in evaluation_data:
     print("Reference:", expected_reply)
     print("Candidate:", model_output)
 
-    # Calculate the BLEU score
-    reference = [expected_reply.split()]  # Convert expected output to a list of words
-    candidate = model_output.split()
+    # Calculate the BLEU score only if the reference is not empty
+    if expected_reply:
+        reference = [expected_reply.split()]  # Convert expected output to a list of words
+        candidate = model_output.split()
 
-    # Compute BLEU score
-    bleu_score = sentence_bleu(reference, candidate)
+        # Compute BLEU score
+        bleu_score = sentence_bleu(reference, candidate)
 
-    # Log results to Weights & Biases
-    wandb.log({
-        "input_text": f"Location: {location}, Destination: {destination}",
-        "expected_output": expected_reply,
-        "model_output": model_output,
-        "BLEU_score": bleu_score,
-    })
-
-    eval_results.append({
-        "input_text": f"Location: {location}, Destination: {destination}",
-        "expected_output": expected_reply,
-        "model_output": model_output,
-        "BLEU_score": bleu_score,
-    })
+        eval_results.append({
+            "input_text": f"Location: {location}, Destination: {destination}",
+            "expected_output": expected_reply,
+            "model_output": model_output,
+            "BLEU_score": bleu_score,
+        })
+    else:
+        print("Warning: Expected reply is empty. Skipping BLEU score calculation.")
 
 # Save evaluation results to a JSON file
 with open("evaluation_results.json", "w") as f:
     json.dump(eval_results, f, indent=4)
+
+# Log results to Weights & Biases
+wandb.log({"evaluation_results": eval_results})
 
 # Finish Weights & Biases run
 wandb.finish()
