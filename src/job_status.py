@@ -12,6 +12,7 @@ if os.getenv("OPENAI_API_KEY") is None:
 assert os.getenv("OPENAI_API_KEY", "").startswith("sk-"), "This doesn't look like a valid OpenAI API key"
 print("OpenAI API key configured")
 
+
 # Import the fine-tuning job ID from the environment
 job_id = os.environ["BRODAMAN_FINETUNE_JOB_ID"]
 
