@@ -36,7 +36,7 @@ jobs:
         run: |
           import re, os
           comment = os.getenv('BRODAMAN_COMMENT', '')
-          match = re.search(r'broda-man/(\S+)', comment)
+          match = re.search(r'broda-man/ft:gpt-3\.5-turbo-0613:personal:broda-man:(\S+)', comment)
 
           with open(os.environ['GITHUB_ENV'], 'a') as f:
             if match:
