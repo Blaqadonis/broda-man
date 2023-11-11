@@ -2,9 +2,18 @@ import json
 import os
 import wandb
 import openai
+import getpass
 
-# Set your OpenAI API key
-openai.api_key = os.environ["OPENAI_API_KEY"]
+
+# OpenAI API key
+if os.getenv("OPENAI_API_KEY") is None:
+    if any(['VSCODE' in x for x in os.environ.keys()]):
+        print('Please enter password in the VS Code prompt at the top of your VS Code window!')
+    os.environ["OPENAI_API_KEY"] = getpass.getpass("Paste your OpenAI Key from: https://platform.openai.com/account/api-keys\n")
+    openai.api_key = os.getenv("OPENAI_API_KEY", "")
+
+assert os.getenv("OPENAI_API_KEY", "").startswith("sk-"), "This doesn't look like a valid OpenAI API key"
+print("OpenAI API key configured")
 
 # Set up WandB project and run
 wandb.init(project="evaluation-dataset")
