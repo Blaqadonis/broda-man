@@ -137,3 +137,4 @@ response = openai.FineTuningJob.create(
 print(f"Fine-tuning job started. Job Details: {response}")
 # Export the response ID to the environment
 os.environ["BRODAMAN_FINETUNE_JOB_ID"] = response.id
+
