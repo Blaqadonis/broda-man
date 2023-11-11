@@ -42,7 +42,7 @@ jobs:
 
       - name: Run the evaluation script
         run: |
-            echo "Model ID is $MODEL_ID"
+            echo "The new Model ID is $MODEL_ID"
             python src/eval.py
             export REPORT_URL=$(wandb run get_url)
 
