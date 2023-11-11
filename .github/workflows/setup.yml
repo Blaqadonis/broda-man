@@ -34,7 +34,7 @@ jobs:
         id: parse-model-id
         run: |
           $comment_body = "${{ github.event.comment.body }}"
-          $model_id_regex = "/broda-man ft:gpt-3\.5-turbo-0613:personal:broda-man:\S+"
+          $model_id_regex = "/broda-man ft:gpt-3\.5-turbo-0613:personal:broda-man:\S+/"
           if ($comment_body -match $model_id_regex) {
             $model_id = $matches[0] -replace '/broda-man ', ''  # Remove the prefix
             echo "MODEL_ID=${model_id}" >> $GITHUB_ENV
@@ -53,7 +53,6 @@ jobs:
           # Log the WandB link to the environment variable
           echo "WANDB_LINK=$(wandb run get_url)" >> $GITHUB_ENV
 
-          
       - name: Make Comment on GitHub
         uses: actions/github-script@v6
         with:
