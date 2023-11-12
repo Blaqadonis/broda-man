@@ -44,14 +44,21 @@ jobs:
               print(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}', file=f)
             else:
               print(f'VAL_FOUND=false', file=f)
+        env:
+          BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
-              
+
       - name: Generate the evaluation report
         if: steps.parse-model-id.outputs.VAL_FOUND == 'true'
         id: new-model-evaluation-report
         run: |
           python src/eval.py
           echo "WANDB_LINK=$(wandb run get_url)" >> $GITHUB_ENV
+        env:
+          BRODAMAN_FINETUNE_MODEL_SUFFIX: "${{ steps.parse-model-id.outputs.BRODAMAN_FINETUNE_MODEL_SUFFIX }}"
+          WANDB_API_KEY: "${{ secrets.WANDB_API_KEY }}"
+          OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
+          
 
       - name: Make Comment on GitHub
         uses: actions/github-script@v6
@@ -66,8 +73,4 @@ jobs:
                 body: msg
               });
         env:
-          BRODAMAN_FINETUNE_MODEL_SUFFIX: "${{ steps.parse-model-id.outputs.BRODAMAN_FINETUNE_MODEL_SUFFIX }}"
-          WANDB_API_KEY: "${{ secrets.WANDB_API_KEY }}"
-          OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
           WANDB_LINK: "${{ steps.new-model-evaluation-report.outputs.WANDB_LINK }}"
-          BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
