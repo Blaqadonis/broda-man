@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   new-model-evaluation:
-    if: ${{ github.event.issue.pull_request != null && contains(github.event.comment.body, 'brodaman/ft:') }}
+    if: ${{ github.event.issue.pull_request != null && contains(github.event.comment.body, 'brodaman/') }}
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
@@ -34,7 +34,7 @@ jobs:
         id: parse-model-id
         run: |
           $comment = $env:BRODAMAN_COMMENT
-          $pattern = "brodaman/ft:(.*?):"
+          $pattern = "brodaman/(.*?):"
           if ($comment -match $pattern) {
             $modelId = $matches[1]
             echo "VAL_FOUND=true" >> $GITHUB_ENV
