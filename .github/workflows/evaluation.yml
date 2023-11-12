@@ -34,9 +34,9 @@ jobs:
         id: parse-model-id
         run: |
           comment=$BRODAMAN_COMMENT
-          start=$(( ${comment##*brodaman/ft:} + 12 ))
-          end=$(( ${comment%%:*} ))
-          if (( $start >= 12 && $end > $start )); then
+          start=$(( ${#comment} - ${#comment%%*brodaman/ft:} - 12 ))
+          end=$(( ${#comment} - ${#comment%%:*} ))
+          if (( start >= 12 && end > start )); then
             modelId=${comment:start:end - start}
             echo "VAL_FOUND=true" >> $GITHUB_ENV
             echo "BRODAMAN_FINETUNE_MODEL_ID=$modelId" >> $GITHUB_ENV
