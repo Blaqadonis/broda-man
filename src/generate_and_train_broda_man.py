@@ -1,6 +1,7 @@
 import os
 import json
 import openai
+import time
 from random import choice
 import wandb
 import getpass  
@@ -134,7 +135,15 @@ response = openai.FineTuningJob.create(
     suffix="broda-man",
 )
 
-print(f"Fine-tuning job started. Job Details: {response}")
-# Export the response ID to the environment
-os.environ["BRODAMAN_FINETUNE_JOB_ID"] = response.id
+# Wait for the fine-tuning job to complete
+while response.status != 'succeeded':
+    time.sleep(60)  # Sleep for 1 minute
+    response = openai.FineTuningJob.retrieve(response.id)
 
+# Print both job ID and model ID
+print(f"Fine-tuning job started. Job Details: {response}")
+print(f"Model ID: {response['model']}")
+
+# Export the response ID and model ID to the environment
+os.environ["BRODAMAN_FINETUNE_JOB_ID"] = response.id
+os.environ["BRODAMAN_FINETUNE_MODEL_ID"] = response['model']
