@@ -52,7 +52,7 @@ jobs:
           python src/eval.py
           echo "WANDB_LINK=$(wandb run get_url)" >> $GITHUB_ENV
 
-          
+
       - name: Make Comment on GitHub
         uses: actions/github-script@v6
         if: steps.new-model-evaluation-report.outcome == 'success'
@@ -65,6 +65,7 @@ jobs:
                 repo: context.repo.repo,
                 body: msg
               });
+              
         env:
           BRODAMAN_FINETUNE_MODEL_ID: "${{ steps.parse-model-id.outputs.BRODAMAN_FINETUNE_MODEL_ID }}"
           WANDB_API_KEY: "${{ secrets.WANDB_API_KEY }}"
