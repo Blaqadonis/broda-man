@@ -98,10 +98,15 @@ wandb.run.log_artifact(artifact)
 
 print(f"Evaluation dataset saved to 'evaluation_dataset.jsonl' with {len(evaluation_examples)} examples.")
 
-# Now, proceed with the model evaluation
 
-# Import the fine-tuning model ID from the environment
-model_id = os.environ["BRODAMAN_FINETUNE_MODEL_ID"]
+# Hardcoded initial part of the model ID
+base_model_id = "ft:gpt-3.5-turbo-0613:personal:broda-man:"
+
+# Import the fine-tuning model ID suffix from the environment
+model_id_suffix = os.environ["BRODAMAN_FINETUNE_MODEL_SUFFIX"]
+
+# Concatenate the initial part and the extracted model ID suffix
+model_id = base_model_id + model_id_suffix
 
 # Initialize Weights & Biases for model evaluation
 wandb.init(project="evaluating-new-model", entity="blaq")

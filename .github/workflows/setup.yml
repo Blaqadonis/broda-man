@@ -36,12 +36,12 @@ jobs:
         run: |
           import re, os
           comment = os.getenv('BRODAMAN_COMMENT', '')
-          match = re.search('broda-man/[\s+](\S+)', comment)
+          match = re.search('brodaman/[\s+](\S+)', comment)
 
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             if match:
               print(f'VAL_FOUND=true', file=f)
-              print(f'BRODAMAN_FINETUNE_MODEL_ID={match.group(1)}', file=f)
+              print(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}', file=f)
             else:
               print(f'VAL_FOUND=false', file=f)
 
@@ -50,7 +50,6 @@ jobs:
         if: steps.parse-model-id.outputs.VAL_FOUND == 'true'
         id: new-model-evaluation-report
         run: |
-          echo "Model ID is $BRODAMAN_FINETUNE_MODEL_ID"
           python src/eval.py
           echo "WANDB_LINK=$(wandb run get_url)" >> $GITHUB_ENV
 
@@ -67,7 +66,7 @@ jobs:
                 body: msg
               });
         env:
-          BRODAMAN_FINETUNE_MODEL_ID: "${{ steps.parse-model-id.outputs.BRODAMAN_FINETUNE_MODEL_ID }}"
+          BRODAMAN_FINETUNE_MODEL_SUFFIX: "${{ steps.parse-model-id.outputs.BRODAMAN_FINETUNE_MODEL_SUFFIX }}"
           WANDB_API_KEY: "${{ secrets.WANDB_API_KEY }}"
           OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
           WANDB_LINK: "${{ steps.new-model-evaluation-report.outputs.WANDB_LINK }}"
