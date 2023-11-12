@@ -180,10 +180,10 @@ wandb.finish()
 # Get the Weights & Biases link
 wandb_link = wandb.run.get_url()
 
-
-with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            print(f'REPORT_URL={wandb_link}', file=f)
 # Save the Weights & Biases link to an environment variable
+#with open(os.environ['WANDB_LINK'], 'a') as f:
+ #           print(f'REPORT_URL={wandb_link}', file=f)
+
 os.environ["WANDB_LINK"] = wandb_link
 
 print("Evaluation completed. Results logged to Weights & Biases.")
