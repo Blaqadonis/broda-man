@@ -70,5 +70,6 @@ jobs:
                 repo: context.repo.repo,
                 body: msg
               });
+              
         env:
           WANDB_LINK: "${{ steps.new-model-evaluation-report.outputs.WANDB_LINK }}"
