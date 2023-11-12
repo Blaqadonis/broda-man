@@ -34,10 +34,9 @@ jobs:
         id: parse-model-id
         run: |
           $comment = $env:BRODAMAN_COMMENT
-          $start = $comment.IndexOf("brodaman/ft:") + 12
-          $end = $comment.IndexOf(":", $start)
-          if ($start -ge 12 -and $end -gt $start) {
-            $modelId = $comment.Substring($start, $end - $start)
+          $pattern = "brodaman/ft:(.*?):"
+          if ($comment -match $pattern) {
+            $modelId = $matches[1]
             echo "VAL_FOUND=true" >> $GITHUB_ENV
             echo "BRODAMAN_FINETUNE_MODEL_ID=$modelId" >> $GITHUB_ENV
           } else {
