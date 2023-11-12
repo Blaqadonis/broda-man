@@ -32,22 +32,22 @@ jobs:
 
       - name: Parse Model ID from Comment
         id: parse-model-id
-        shell: python
         run: |
           import re, os
           comment = os.getenv('BRODAMAN_COMMENT', '')
           match = re.search('brodaman/[\s+](\S+)', comment)
           if match.group(0) == comment:
-            set VAL_FOUND=True
+            print('VAL_FOUND=True')
+            print(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}')
           else:
-            set VAL_FOUND=false
-          echo "VAL_FOUND" >> $GITHUB_ENV
-          echo "BRODAMAN_FINETUNE_MODEL_SUFFIX=${match.group(1)}" >> $GITHUB_ENV
+            print('VAL_FOUND=False')
+          print('VAL_FOUND')  # This line is not necessary in this context
+          print(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}')  # This line is not necessary in this context
         env:
           BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
       - name: Generate the evaluation report
-        if: steps.parse-model-id.outputs.VAL_FOUND == 'true'
+        if: steps.parse-model-id.outputs.VAL_FOUND == 'True'
         id: new-model-evaluation-report
         run: |
           python src/eval.py
