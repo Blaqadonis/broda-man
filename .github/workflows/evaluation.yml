@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   new-model-evaluation:
-    if: (github.event.issue.pull_request != null) && contains(github.event.comment.body, 'broda-man/')
+    if: (github.event.issue.pull_request != null) && contains(github.event.comment.body, 'brodaman/ft:')
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
@@ -33,16 +33,16 @@ jobs:
       - name: Parse Model ID from Comment
         id: parse-model-id
         run: |
-          $comment = $env:BRODAMAN_COMMENT
-          $start = $comment.IndexOf("broda-man/") + 10
-          $end = $comment.IndexOf(":", $start)
-          if ($start -ge 10 -and $end -gt $start) {
-            $modelId = $comment.Substring($start, $end - $start)
+          comment=$BRODAMAN_COMMENT
+          start=$(( ${comment##*brodaman/ft:} + 12 ))
+          end=$(( ${comment%%:*} ))
+          if (( $start >= 12 && $end > $start )); then
+            modelId=${comment:start:end - start}
             echo "VAL_FOUND=true" >> $GITHUB_ENV
             echo "BRODAMAN_FINETUNE_MODEL_ID=$modelId" >> $GITHUB_ENV
-          } else {
+          else
             echo "VAL_FOUND=false" >> $GITHUB_ENV
-          }
+          fi
 
       - name: Generate the evaluation report
         if: steps.parse-model-id.outputs.VAL_FOUND == 'true'
@@ -50,8 +50,8 @@ jobs:
         run: |
           echo "Model ID is $BRODAMAN_FINETUNE_MODEL_ID"
           python src/eval.py
-          echo "WANDB_LINK=$(wandb run get_url)" >> $GITHUB_ENV
-
+          WANDB_LINK=$(wandb run get_url)
+          echo "WANDB_LINK=$WANDB_LINK" >> $GITHUB_ENV
 
       - name: Make Comment on GitHub
         uses: actions/github-script@v6
@@ -65,7 +65,7 @@ jobs:
                 repo: context.repo.repo,
                 body: msg
               });
-              
+
         env:
           BRODAMAN_FINETUNE_MODEL_ID: "${{ steps.parse-model-id.outputs.BRODAMAN_FINETUNE_MODEL_ID }}"
           WANDB_API_KEY: "${{ secrets.WANDB_API_KEY }}"
