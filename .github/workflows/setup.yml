@@ -38,9 +38,9 @@ jobs:
           comment = os.getenv('BRODAMAN_COMMENT', '')
           match = re.search('brodaman/[\s+](\S+)', comment)
           if match.group(0) == comment:
-            echo "VAL_FOUND=true"
+            set VAL_FOUND=True
           else:
-            echo "VAL_FOUND=false"
+            set VAL_FOUND=false
           echo "VAL_FOUND" >> $GITHUB_ENV
           echo "BRODAMAN_FINETUNE_MODEL_SUFFIX=${match.group(1)}" >> $GITHUB_ENV
         env:
