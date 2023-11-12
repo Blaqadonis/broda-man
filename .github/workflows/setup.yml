@@ -35,7 +35,7 @@ jobs:
         run: |
           import re, os
           comment = os.getenv('BRODAMAN_COMMENT', '')
-          match = re.search('brodaman/[\s+](\S+)', comment)
+          match = re.search(r'brodaman/(\S+)', comment)
 
           if match.group(0) == comment:
             print('VAL_FOUND=True')
