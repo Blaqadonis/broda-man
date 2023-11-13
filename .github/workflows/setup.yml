@@ -37,17 +37,18 @@ jobs:
           comment = os.getenv('BRODAMAN_COMMENT', '')
           match = re.search(r'brodaman/(\S+)', comment)
 
-          if match.group(0) == comment:
-            print('VAL_FOUND=True')
-            print(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}')
-          else:
-            print('VAL_FOUND=False')
-
           with open(os.environ['GITHUB_ENV'], 'a') as f:
-            f.write(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}\n')
+            if match:
+              f.write(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}\n')
+              print(f'VAL_FOUND=true', file=f)
+            else:
+              print(f'VAL_FOUND=false', file=f)
+
+        env:
+          BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
       - name: Generate the evaluation report
-        if: steps.parse-model-id.outputs.VAL_FOUND == 'True'
+        if: steps.parse-model-id.outputs.VAL_FOUND == 'true'
         id: new-model-evaluation-report
         run: |
           python src/eval.py
