@@ -1,0 +1,77 @@
+
+Evaluation dataset saved to 'evaluation_dataset.jsonl' with 18 examples.
+wandb:   1 of 1 files downloaded.
+Reference: Na straight na. Take Mobolaji Bank Anthony Way, then turn right onto Ikorodu Road. Follow Ikorodu Road all the way to the stadium.
+Candidate: No wahala, my person! If you dey Ikeja and you wan reach National Stadium, make you take Oregun Road. E go helep you avoid plenty traffic for inside Ikeja. Na straight road from Oregun, you
+C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\nltk\translate\bleu_score.py:552: UserWarning:
+The hypothesis contains 0 counts of 3-gram overlaps.
+Therefore the BLEU score evaluates to 0, independently of
+how many N-gram overlaps of lower order it contains.
+Consider using lower n-gram order or use SmoothingFunction()
+  warnings.warn(_msg)
+C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\nltk\translate\bleu_score.py:552: UserWarning:
+The hypothesis contains 0 counts of 4-gram overlaps.
+Therefore the BLEU score evaluates to 0, independently of
+how many N-gram overlaps of lower order it contains.
+Consider using lower n-gram order or use SmoothingFunction()
+  warnings.warn(_msg)
+Reference: Take Lekki-Epe Expressway to Ozumba Mbadiwe Avenue. Then turn left onto the Third Mainland Bridge. Follow the Third Mainland Bridge all the way to Ojo.
+Candidate: Ah, my person for Lekki! How body? You wan kpai for traffic? No wahala, Broda-man don show. Make you follow dis route:
+1. Drive from Lekki-Epe Expressway.
+2. Pass
+C:\Users\Odiaka\miniconda3\envs\bisi10\lib\site-packages\nltk\translate\bleu_score.py:552: UserWarning:
+The hypothesis contains 0 counts of 2-gram overlaps.
+Therefore the BLEU score evaluates to 0, independently of
+how many N-gram overlaps of lower order it contains.
+Consider using lower n-gram order or use SmoothingFunction()
+  warnings.warn(_msg)
+Reference: Take Apapa-Oshodi Expressway to Costain. Then turn left onto Ijora Causeway. Follow Ijora Causeway to Iganmu. Then turn right onto Doyin Street.
+Candidate: Broda-man dey hail you!
+To quickly reach Doyin from Masha, follow dis joyful route:
+1. Start by heading east on Masha Road.
+2. Turn left onto Bode Thomas Street.
+3. Continue straight on B
+Reference: Take Oshodi-Apapa Expressway to Badagry Expressway. Follow Badagry Expressway all the way to Badagry.
+Candidate: Oya my padi, if you dey Surulere and you wan go Badagry, make you follow dis route:
+1. Drive along Funsho Williams Avenue (Western Avenue) and head towards Mile 2.
+2. From
+Reference: Na straight na. Take Mobolaji Bank Anthony Way, then turn right onto Ikorodu Road. Follow Ikorodu Road all the way to the stadium.
+Candidate: Make we yan, my person! If you dey Ikeja and you wan reach National Stadium with less traffic wahala, this na the route wey you fit follow:
+1. Drive or enter taxi go Mobolaji Bank Anthony Way.
+2
+Reference: Take Lekki-Epe Expressway to Ozumba Mbadiwe Avenue. Then turn left onto the Third Mainland Bridge. Follow the Third Mainland Bridge all the way to Ojo.
+Candidate: Broda-man to the rescue! If e be say you dey Lekki and you wan reach Ojo, make you commot for road right now! E get person wey say make e chop breakfast for dream, e no go g
+Reference: Take Apapa-Oshodi Expressway to Costain. Then turn left onto Ijora Causeway. Follow Ijora Causeway to Iganmu. Then turn right onto Doyin Street.
+Candidate: If I hear say you no fit waka dat kain small distance! Na just small road from Masha to Doyin. You fit waka-am under five minutes. No be traffic mata at all.
+Reference: Take Lagos-Abeokuta Expressway to Festac Town Exit. Then turn left onto Festac Link Road. Follow Festac Link Road to Festac Town.
+Candidate: As I yan am, Broda-man dey hail you! If you wan jinja your sef comot Berger go Festac with small traffic, make you follow dis route:
+1. Start to Godwin Omonua Street for Berger,
+Reference: Take Ikorodu Road to Ikeja Under Bridge. Then turn left onto Mobolaji Bank Anthony Way. Follow Mobolaji Bank Anthony Way to Maryland.
+Candidate: No wahala at all, my person! If you wan avoid traffic goin' from Computer Village to Maryland, I go recommend say make you use Awolowo Way. E go help you bypass some kind heavy traffic for Allen Avenue. Na sure
+Reference: Take Lagos Island Ring Road to Fatai Atere Way. Then turn right onto Igbosere Road. Follow Igbosere Road to Aguda.
+Candidate: Oya, my padi! If you dey Iponri and you wan reach Aguda quick-quick, here na di route wey you fit follow:
+1. Commot for Iponri go connect Funsho Williams Avenue.
+Reference: Take Lagos-Badagry Expressway to Iyana-Ipaja Exit. Then turn right onto Iyana-Ipaja Road. Follow Iyana-Ipaja Road to Iyana-Ipaja.
+Candidate: Ah, my person! If you dey go Iyana-Ipaja from Mile-2, make you use Oshodi-Apapa Expressway. From there, cruise enter Oshodi-Isolo Road, then link up to
+Reference: Take Iyana-Ipaja Road to Lagos-Abeokuta Expressway. Then turn left onto Oshodi-Apapa Expressway. Follow Oshodi-Apapa Expressway all the way to Costain.
+Candidate: Broda-man to the rescue! If you dey Iyana Ipaja and you wan reach Costain sharp-sharp, I gat you covered. Follow dis route make you sidon for traffic small pikin:
+Go through Iyana
+Reference:
+Candidate: Bros, I hail you! If you no wan waste time for road, make you follow dis route wey I go give you. From Epe, cruise go Ikorodu Road, den link up Third Mainland Bridge. Na so you
+Warning: Expected reply is empty. Skipping BLEU score calculation.
+Reference:
+Candidate: Ah, my person! How bodi? If na Costain you dey and you wan reach LUTH, e get one kain sharp route wey you fit follow. Make you waka go your front small, junction right. From there
+Warning: Expected reply is empty. Skipping BLEU score calculation.
+Reference:
+Candidate: My guy, Idi-Araba to Doyin? E easy na! Just follow Straight Road, enter Western Avenue, jejely carry go Doyin. No too much traffic for dat route. You go reach your destination sharp sharp.
+Warning: Expected reply is empty. Skipping BLEU score calculation.
+Reference:
+Candidate: Bros, Lekki Phase 1 to Phase 2 no too far na. Just follow Admiralty Road jeje, you go reach your destination. No go chop traffic, enjoy your cruise!
+Warning: Expected reply is empty. Skipping BLEU score calculation.
+Reference:
+Candidate: Oya my person, from Ikeja to Yaba na small ting. Make you take Ojota route, you go waka jejely. No be wahala for you at all, traffic go dey run comot. Enjoy your journey
+Warning: Expected reply is empty. Skipping BLEU score calculation.
+Reference:
+Candidate: Bros! How body? If to say I be superman, I for fly you go Trade-Fair sharp sharp. But no wahala, I get correct route wey go reduce your traffic wahala.
+Make you commot for Ojo
+Warning: Expected reply is empty. Skipping BLEU score calculation.
