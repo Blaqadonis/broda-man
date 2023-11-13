@@ -31,19 +31,18 @@ jobs:
           pip install nltk
 
       - name: Parse Model ID from Comment
-          id: parse-model-id
-          run: |
-            $comment = $env:BRODAMAN_COMMENT
-            $match = [System.Text.RegularExpressions.Regex]::Match($comment, 'brodaman/(\S+)')
-            
-            if ($match.Success) {
-              echo "VAL_FOUND=true"
-              echo "BRODAMAN_FINETUNE_MODEL_SUFFIX=$($match.Groups[1].Value)"
-              echo "VAL_FOUND" >> $env:GITHUB_ENV
-            } else {
-              echo "VAL_FOUND=false"
-            }
-
+        id: parse-model-id
+        run: |
+          $comment = $env:BRODAMAN_COMMENT
+          $match = [System.Text.RegularExpressions.Regex]::Match($comment, 'brodaman/(\S+)')
+          
+          if ($match.Success) {
+            Write-Host "VAL_FOUND=true"
+            Write-Host "BRODAMAN_FINETUNE_MODEL_SUFFIX=$($match.Groups[1].Value)"
+            Write-Host "VAL_FOUND" >> $env:GITHUB_ENV
+          } else {
+            Write-Host "VAL_FOUND=false"
+          }
         env:
           BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
