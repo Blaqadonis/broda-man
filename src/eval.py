@@ -70,7 +70,7 @@ base_model_id = "ft:gpt-3.5-turbo-0613:personal:broda-man:"
 model_id_suffix = os.environ["BRODAMAN_FINETUNE_MODEL_SUFFIX"]
 
 # Concatenate the initial part and the extracted model ID suffix
-model_id = base_model_id + model_id_suffix
+model_id = base_model_id + str(model_id_suffix)
 
 # Initialize Weights & Biases for model evaluation
 run = wandb.init(project="evaluating-new-model", entity="blaq")

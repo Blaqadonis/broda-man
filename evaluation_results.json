@@ -1,8 +1,0 @@
-[
-    {
-        "input_text": "Location: Ikeja., Destination: National Stadium.",
-        "expected_output": "Modify this with the expected reply for Ikeja to National Stadium",
-        "model_output": "Ah, my person! How body? If you wan reach National Stadium sharp sharp, make you follow dis route:\n\n1. Drive through Mobolaji Bank Anthony Way, e go lead you go Maryland.\n2. From Maryland, enter Ikorodu",
-        "BLEU_score": 2.9773992754134955e-155
-    }
-]

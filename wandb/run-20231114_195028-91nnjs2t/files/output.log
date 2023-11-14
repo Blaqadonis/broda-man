@@ -1,7 +1,0 @@
-Traceback (most recent call last):
-  File "C:\Users\Odiaka\world\Data_Science\Datasets\broda-man\src\eval.py", line 70, in <module>
-    model_id_suffix = os.environ["BRODAMAN_FINETUNE_MODEL_SUFFIX"]
-  File "C:\Users\Odiaka\miniconda3\envs\bisi10\lib\os.py", line 680, in __getitem__
-    raise KeyError(key) from None
-KeyError: 'BRODAMAN_FINETUNE_MODEL_SUFFIX'
-Evaluation dataset saved to 'evaluation_dataset.jsonl' with 1 examples.

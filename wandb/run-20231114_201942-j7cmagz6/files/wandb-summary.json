@@ -1,1 +1,0 @@
-{"evaluation_examples": [{"messages": [{"role": "user", "content": "Location: Ikeja."}, {"role": "user", "content": "Destination: National Stadium."}], "expected_reply": "Modify this with the expected reply for Ikeja to National Stadium"}], "_timestamp": 1699989596.3579745, "_runtime": 13.75709843635559, "_step": 0, "_wandb": {"runtime": 11}}
