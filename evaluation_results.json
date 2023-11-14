@@ -1,74 +1,8 @@
 [
     {
         "input_text": "Location: Ikeja., Destination: National Stadium.",
-        "expected_output": "Na straight na. Take Mobolaji Bank Anthony Way, then turn right onto Ikorodu Road. Follow Ikorodu Road all the way to the stadium.",
-        "model_output": "No wahala, my person! If you dey Ikeja and you wan reach National Stadium, make you take Oregun Road. E go helep you avoid plenty traffic for inside Ikeja. Na straight road from Oregun, you",
-        "BLEU_score": 3.3424566934858732e-155
-    },
-    {
-        "input_text": "Location: Lekki., Destination: Ojo.",
-        "expected_output": "Take Lekki-Epe Expressway to Ozumba Mbadiwe Avenue. Then turn left onto the Third Mainland Bridge. Follow the Third Mainland Bridge all the way to Ojo.",
-        "model_output": "Ah, my person for Lekki! How body? You wan kpai for traffic? No wahala, Broda-man don show. Make you follow dis route:\n\n1. Drive from Lekki-Epe Expressway.\n2. Pass",
-        "BLEU_score": 7.850707993042515e-232
-    },
-    {
-        "input_text": "Location: Masha., Destination: Doyin.",
-        "expected_output": "Take Apapa-Oshodi Expressway to Costain. Then turn left onto Ijora Causeway. Follow Ijora Causeway to Iganmu. Then turn right onto Doyin Street.",
-        "model_output": "Broda-man dey hail you!\n\nTo quickly reach Doyin from Masha, follow dis joyful route:\n\n1. Start by heading east on Masha Road.\n2. Turn left onto Bode Thomas Street.\n3. Continue straight on B",
-        "BLEU_score": 3.6449283809869995e-155
-    },
-    {
-        "input_text": "Location: Surulere., Destination: Badagry.",
-        "expected_output": "Take Oshodi-Apapa Expressway to Badagry Expressway. Follow Badagry Expressway all the way to Badagry.",
-        "model_output": "Oya my padi, if you dey Surulere and you wan go Badagry, make you follow dis route:\n\n1. Drive along Funsho Williams Avenue (Western Avenue) and head towards Mile 2.\n\n2. From",
-        "BLEU_score": 0
-    },
-    {
-        "input_text": "Location: Ikeja., Destination: National Stadium.",
-        "expected_output": "Na straight na. Take Mobolaji Bank Anthony Way, then turn right onto Ikorodu Road. Follow Ikorodu Road all the way to the stadium.",
-        "model_output": "Make we yan, my person! If you dey Ikeja and you wan reach National Stadium with less traffic wahala, this na the route wey you fit follow:\n\n1. Drive or enter taxi go Mobolaji Bank Anthony Way.\n2",
-        "BLEU_score": 1.3694199461108295e-78
-    },
-    {
-        "input_text": "Location: Lekki., Destination: Ojo.",
-        "expected_output": "Take Lekki-Epe Expressway to Ozumba Mbadiwe Avenue. Then turn left onto the Third Mainland Bridge. Follow the Third Mainland Bridge all the way to Ojo.",
-        "model_output": "Broda-man to the rescue! If e be say you dey Lekki and you wan reach Ojo, make you commot for road right now! E get person wey say make e chop breakfast for dream, e no go g",
-        "BLEU_score": 8.726094729337945e-232
-    },
-    {
-        "input_text": "Location: Masha., Destination: Doyin.",
-        "expected_output": "Take Apapa-Oshodi Expressway to Costain. Then turn left onto Ijora Causeway. Follow Ijora Causeway to Iganmu. Then turn right onto Doyin Street.",
-        "model_output": "If I hear say you no fit waka dat kain small distance! Na just small road from Masha to Doyin. You fit waka-am under five minutes. No be traffic mata at all.",
-        "BLEU_score": 7.659859945595747e-232
-    },
-    {
-        "input_text": "Location: Berger., Destination: Festac.",
-        "expected_output": "Take Lagos-Abeokuta Expressway to Festac Town Exit. Then turn left onto Festac Link Road. Follow Festac Link Road to Festac Town.",
-        "model_output": "As I yan am, Broda-man dey hail you! If you wan jinja your sef comot Berger go Festac with small traffic, make you follow dis route:\n\n1. Start to Godwin Omonua Street for Berger,",
-        "BLEU_score": 8.972141065609098e-232
-    },
-    {
-        "input_text": "Location: Computer Village., Destination: Maryland.",
-        "expected_output": "Take Ikorodu Road to Ikeja Under Bridge. Then turn left onto Mobolaji Bank Anthony Way. Follow Mobolaji Bank Anthony Way to Maryland.",
-        "model_output": "No wahala at all, my person! If you wan avoid traffic goin' from Computer Village to Maryland, I go recommend say make you use Awolowo Way. E go help you bypass some kind heavy traffic for Allen Avenue. Na sure",
-        "BLEU_score": 8.614911585158347e-232
-    },
-    {
-        "input_text": "Location: Iponri., Destination: Aguda.",
-        "expected_output": "Take Lagos Island Ring Road to Fatai Atere Way. Then turn right onto Igbosere Road. Follow Igbosere Road to Aguda.",
-        "model_output": "Oya, my padi! If you dey Iponri and you wan reach Aguda quick-quick, here na di route wey you fit follow:\n\n1. Commot for Iponri go connect Funsho Williams Avenue.",
-        "BLEU_score": 0
-    },
-    {
-        "input_text": "Location: Mile-2., Destination: Iyana-Ipaja.",
-        "expected_output": "Take Lagos-Badagry Expressway to Iyana-Ipaja Exit. Then turn right onto Iyana-Ipaja Road. Follow Iyana-Ipaja Road to Iyana-Ipaja.",
-        "model_output": "Ah, my person! If you dey go Iyana-Ipaja from Mile-2, make you use Oshodi-Apapa Expressway. From there, cruise enter Oshodi-Isolo Road, then link up to",
-        "BLEU_score": 9.689041594391036e-232
-    },
-    {
-        "input_text": "Location: Iyana Ipaja., Destination: Costain.",
-        "expected_output": "Take Iyana-Ipaja Road to Lagos-Abeokuta Expressway. Then turn left onto Oshodi-Apapa Expressway. Follow Oshodi-Apapa Expressway all the way to Costain.",
-        "model_output": "Broda-man to the rescue! If you dey Iyana Ipaja and you wan reach Costain sharp-sharp, I gat you covered. Follow dis route make you sidon for traffic small pikin:\n\nGo through Iyana",
-        "BLEU_score": 1.0080942617254966e-231
+        "expected_output": "Modify this with the expected reply for Ikeja to National Stadium",
+        "model_output": "Ah, my person! How body? If you wan reach National Stadium sharp sharp, make you follow dis route:\n\n1. Drive through Mobolaji Bank Anthony Way, e go lead you go Maryland.\n2. From Maryland, enter Ikorodu",
+        "BLEU_score": 2.9773992754134955e-155
     }
 ]

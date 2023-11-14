@@ -68,12 +68,12 @@ base_model_id = "ft:gpt-3.5-turbo-0613:personal:broda-man:"
 
 # Import the fine-tuning model ID suffix from the environment
 model_id_suffix = os.environ["BRODAMAN_FINETUNE_MODEL_SUFFIX"]
-
+#model_id_suffix = "8KYjZe8R"
 # Concatenate the initial part and the extracted model ID suffix
 model_id = base_model_id + model_id_suffix
 
 # Initialize Weights & Biases for model evaluation
-wandb.init(project="evaluating-new-model", entity="blaq")
+run = wandb.init(project="evaluating-new-model", entity="blaq")
 
 # Retrieve the evaluation dataset from WandB
 artifact = wandb.run.use_artifact("evaluation_dataset:latest")
@@ -136,7 +136,7 @@ wandb.log({"evaluation_results": eval_results})
 wandb.finish()
 
 # Get the Weights & Biases link
-wandb_link = wandb.run.get_url()
+wandb_link = run.get_url()
 
 # Save the Weights & Biases link to an environment variable
 os.environ["WANDB_LINK"] = wandb_link
