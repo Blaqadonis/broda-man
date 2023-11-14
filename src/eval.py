@@ -68,7 +68,7 @@ base_model_id = "ft:gpt-3.5-turbo-0613:personal:broda-man:"
 
 # Import the fine-tuning model ID suffix from the environment
 model_id_suffix = os.environ["BRODAMAN_FINETUNE_MODEL_SUFFIX"]
-#model_id_suffix = "8KYjZe8R"
+
 # Concatenate the initial part and the extracted model ID suffix
 model_id = base_model_id + model_id_suffix
 
