@@ -45,7 +45,7 @@ jobs:
           #} 
           import re, os
           comment = os.getenv('BRODAMAN_COMMENT', '')
-          match = re.search('brodaman/(\S+)', comment) 
+          $match = [System.Text.RegularExpressions.Regex]::Match($comment, 'brodaman/(\S+)') 
           if match:
             print(f'VAL_FOUND=true')
             print(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}')
