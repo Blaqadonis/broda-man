@@ -39,7 +39,6 @@ jobs:
           if ($match.Success) {
             Write-Host "VAL_FOUND=true"
             Write-Host "BRODAMAN_FINETUNE_MODEL_SUFFIX=$($match.Groups[1].Value)"
-            Write-Host "VAL_FOUND" >> $env:GITHUB_ENV
           } else {
             Write-Host "VAL_FOUND=false"
           }
@@ -51,7 +50,8 @@ jobs:
         id: new-model-evaluation-report
         run: |
           python src/eval.py
-          echo "WANDB_LINK=$(wandb run get_url)" >> $GITHUB_ENV
+        env:
+          BRODAMAN_FINETUNE_MODEL_SUFFIX: $($match.Groups[1].Value)
 
       - name: Make Comment on GitHub
         uses: actions/github-script@v6

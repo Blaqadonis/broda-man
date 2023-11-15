@@ -1,0 +1,20 @@
+2023-11-15 20:22:56,505 INFO    MainThread:21896 [wandb_setup.py:_flush():76] Current SDK version is 0.16.0
+2023-11-15 20:22:56,505 INFO    MainThread:21896 [wandb_setup.py:_flush():76] Configure stats pid to 21896
+2023-11-15 20:22:56,506 INFO    MainThread:21896 [wandb_setup.py:_flush():76] Loading settings from C:\Users\Odiaka\.config\wandb\settings
+2023-11-15 20:22:56,506 INFO    MainThread:21896 [wandb_setup.py:_flush():76] Loading settings from C:\Users\Odiaka\world\Data_Science\Datasets\broda-man\wandb\settings
+2023-11-15 20:22:56,506 INFO    MainThread:21896 [wandb_setup.py:_flush():76] Loading settings from environment variables: {'api_key': '***REDACTED***'}
+2023-11-15 20:22:56,506 INFO    MainThread:21896 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2023-11-15 20:22:56,508 INFO    MainThread:21896 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'src\\eval.py', 'program_abspath': 'C:\\Users\\Odiaka\\world\\Data_Science\\Datasets\\broda-man\\src\\eval.py', 'program': 'C:\\Users\\Odiaka\\world\\Data_Science\\Datasets\\broda-man\\src\\eval.py'}
+2023-11-15 20:22:56,508 INFO    MainThread:21896 [wandb_init.py:_log_setup():524] Logging user logs to C:\Users\Odiaka\world\Data_Science\Datasets\broda-man\wandb\run-20231115_202256-hu71csze\logs\debug.log
+2023-11-15 20:22:56,508 INFO    MainThread:21896 [wandb_init.py:_log_setup():525] Logging internal logs to C:\Users\Odiaka\world\Data_Science\Datasets\broda-man\wandb\run-20231115_202256-hu71csze\logs\debug-internal.log
+2023-11-15 20:22:56,509 INFO    MainThread:21896 [wandb_init.py:init():564] calling init triggers
+2023-11-15 20:22:56,509 INFO    MainThread:21896 [wandb_init.py:init():571] wandb.init called with sweep_config: {}
+config: {}
+2023-11-15 20:22:56,509 INFO    MainThread:21896 [wandb_init.py:init():609] wandb.init() called when a run is still active
+2023-11-15 20:23:05,087 INFO    MainThread:21896 [wandb_run.py:_finish():1962] finishing run blaq/evaluation-dataset/10dm64sf
+2023-11-15 20:23:05,087 INFO    MainThread:21896 [wandb_run.py:_atexit_cleanup():2202] got exitcode: 0
+2023-11-15 20:23:05,087 INFO    MainThread:21896 [wandb_run.py:_restore():2185] restore
+2023-11-15 20:23:05,088 INFO    MainThread:21896 [wandb_run.py:_restore():2191] restore done
+2023-11-15 20:23:18,883 INFO    MainThread:21896 [wandb_run.py:_footer_history_summary_info():3760] rendering history
+2023-11-15 20:23:18,885 INFO    MainThread:21896 [wandb_run.py:_footer_history_summary_info():3792] rendering summary
+2023-11-15 20:23:18,905 INFO    MainThread:21896 [wandb_run.py:_footer_sync_info():3719] logging synced files
