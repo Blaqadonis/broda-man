@@ -39,7 +39,7 @@ jobs:
           if ($match.Success) {
             Write-Host "VAL_FOUND=true"
             Write-Host "BRODAMAN_FINETUNE_MODEL_SUFFIX=$($match.Groups[1].Value)"
-            Write-Host "VAL_FOUND" >> $env:GITHUB_ENV
+            Write-Host "BRODAMAN_FINETUNE_MODEL_SUFFIX" >> $env:GITHUB_ENV
           } else {
             Write-Host "VAL_FOUND=false"
           }
