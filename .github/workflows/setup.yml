@@ -39,6 +39,7 @@ jobs:
           if ($match.Success) {
             Write-Host "VAL_FOUND=true"
             Write-Host "BRODAMAN_FINETUNE_MODEL_SUFFIX=$($match.Groups[1].Value)"
+            Write-Host "BRODAMAN_FINETUNE_MODEL_SUFFIX=$($match.Groups[1].Value)" >> $env:GITHUB_ENV
           } else {
             Write-Host "VAL_FOUND=false"
           }
@@ -51,7 +52,7 @@ jobs:
         run: |
           python src/eval.py
         env:
-          BRODAMAN_FINETUNE_MODEL_SUFFIX: $($match.Groups[1].Value)
+          BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.parse-model-id.outputs.BRODAMAN_FINETUNE_MODEL_SUFFIX }}
 
       - name: Make Comment on GitHub
         uses: actions/github-script@v6
@@ -65,5 +66,3 @@ jobs:
               repo: context.repo.repo,
               body: msg
             });
-
-            
