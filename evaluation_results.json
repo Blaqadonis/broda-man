@@ -1,8 +1,0 @@
-[
-    {
-        "input_text": "Location: Ikeja., Destination: National Stadium.",
-        "expected_output": "Modify this with the expected reply for Ikeja to National Stadium",
-        "model_output": "Ah, bros! You wan reach National Stadium for Surulere? Good tin! No wahala at all. Make you commot for Ikeja, use that your leg control the traffic, waka go Agege Motor Road. From Age",
-        "BLEU_score": 3.6449283809869995e-155
-    }
-]
