@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   new-model-evaluation:
-    if: (github.event.issue.pull_request != null) && contains(github.event.comment.body, 'brodaman/')
+    if: (github.event.issue.pull_request != null) && contains(github.event.comment.body, '/brodaman')
     runs-on: windows-latest
     steps:
       - name: Checkout Repository
@@ -37,7 +37,7 @@ jobs:
          import os
         
          comment = os.getenv('BRODAMAN_COMMENT', '')
-         match = re.search(r'brodaman/(\S+)', comment)
+         match = re.search('/brodaman[\s+](\S+)', comment)
         
          output_file_path = os.getenv('GITHUB_ENV', '')
         
