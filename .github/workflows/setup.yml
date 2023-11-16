@@ -33,18 +33,23 @@ jobs:
       - name: Parse Model ID from Comment
         id: parse-model-id
         run: |
-            comment=$BRODAMAN_COMMENT
-            start=$(( ${#comment} - ${#comment%%*brodaman/ft:} - 12 ))
-            end=$(( ${#comment} - ${#comment%%:*} ))
-            if (( start >= 12 && end > start )); then
-              modelId=${comment:start:end - start}
-              echo "VAL_FOUND=true" >> $GITHUB_ENV
-              echo "BRODAMAN_FINETUNE_MODEL_ID=$modelId" >> $GITHUB_ENV
-            else
-              echo "VAL_FOUND=false" >> $GITHUB_ENV
-            fi
+         import re
+         import os
+        
+         comment = os.getenv('BRODAMAN_COMMENT', '')
+         match = re.search(r'brodaman/(\S+)', comment)
+        
+         output_file_path = os.getenv('GITHUB_ENV', '')
+        
+         with open(output_file_path, 'a') as f:
+          if match:
+            f.write('VAL_FOUND=true\n')
+            f.write(f'BRODAMAN_FINETUNE_MODEL_ID={match.group(1)}\n')
+          else:
+            f.write('VAL_FOUND=false\n')
+        
         env:
-          BRODAMAN_COMMENT: ${{ github.event.comment.body }}
+          BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
       - name: Generate the evaluation report
         if: steps.parse-model-id.outputs.VAL_FOUND == 'True'
