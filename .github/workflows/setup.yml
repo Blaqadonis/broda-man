@@ -32,6 +32,7 @@ jobs:
 
       - name: Parse Model ID from Comment
         id: parse-model-id
+        shell: python
         run: |
          import re
          import os
