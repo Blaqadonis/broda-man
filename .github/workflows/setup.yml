@@ -39,14 +39,10 @@ jobs:
         
          comment = os.getenv('BRODAMAN_COMMENT', '')
          match = re.search('/brodaman[\s+](\S+)', comment)
-        
-         output_file_path = os.getenv('GITHUB_ENV', '')
-        
-         with open(output_file_path, 'a') as f:
-          if match:
-            f.write('VAL_FOUND=true\n')
-            f.write(f'BRODAMAN_FINETUNE_MODEL_ID={match.group(1)}\n')
-          else:
+         if match:
+          f.write('VAL_FOUND=true\n')
+          f.write(f'BRODAMAN_FINETUNE_MODEL_ID={match.group(1)}\n')
+         else:
             f.write('VAL_FOUND=false\n')
         env:
           BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
