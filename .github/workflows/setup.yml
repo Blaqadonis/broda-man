@@ -47,7 +47,6 @@ jobs:
             f.write(f'BRODAMAN_FINETUNE_MODEL_ID={match.group(1)}\n')
           else:
             f.write('VAL_FOUND=false\n')
-        
         env:
           BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
