@@ -43,6 +43,7 @@ jobs:
           if match:
             print('VAL_FOUND=true')
             print(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}')
+            BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}
           else:
             print('VAL_FOUND=false') 
         env:
