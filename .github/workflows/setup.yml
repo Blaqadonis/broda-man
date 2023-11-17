@@ -42,14 +42,9 @@ jobs:
             
           if match:
             print('VAL_FOUND=true')
-            print(f'BRODAMAN_FINETUNE_MODEL_ID={match.group(1)}')
+            print(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}')
           else:
-            print('VAL_FOUND=false')
-                
-          # Export the variables to be used in subsequent steps
-          echo "::set-env name=VAL_FOUND::{match and 'true' or 'false'}"
-          echo "::set-env name=BRODAMAN_FINETUNE_MODEL_ID::{match.group(1) if match else ''}"
-        
+            print('VAL_FOUND=false') 
         env:
           BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
         
