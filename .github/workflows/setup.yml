@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Filter for magic comment
         id: filter
-        if: contains(github.event.comment.body, env.MAGIC_COMMENT)
+        if: contains(github.event.comment.body, env.BRODAMAN_COMMENT)
         run: echo "Magic comment detected"
 
       - name: Parse value from the magic command
@@ -30,6 +30,7 @@ jobs:
           import re
           import os
 
+          # Access environment variables using os.getenv
           comment = os.getenv('BRODAMAN_COMMENT', '')
           match = re.search(fr'{re.escape(os.getenv("BRODAMAN_COMMENT"))}\s+(\S+)', comment)
 
@@ -37,18 +38,14 @@ jobs:
             print(f'VAL_FOUND=true')
             print(f'MAGIC_VAL={match.group(1)}')
             with open(os.environ['GITHUB_ENV'], 'a') as f:
-              print(f'VAL_FOUND=true\n')
-              print(f'MAGIC_VAL={match.group(1)}\n')
+              f.write(f'VAL_FOUND=true\n')
+              f.write(f'MAGIC_VAL={match.group(1)}\n')
           else:
             print(f'VAL_FOUND=false')
-
-        env:
-          BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
       - name: Run the evaluation script
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: python src/eval.py ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
-
 
       - name: Comment with the evaluation link
         if: success()
@@ -58,8 +55,8 @@ jobs:
           
           msg="An evaluation of the new model for Broda-man is available [in this link](${WANDB_LINK})"
           github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
+            issue_number: ${{ github.event.issue.number }},
+            owner: ${{ github.repository_owner }},
+            repo: ${{ github.repository }},
             body: msg
           })
