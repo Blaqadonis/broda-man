@@ -1,6 +1,9 @@
 name: Listening For a PR Comment for Broda-man
 
-on: issue_comment
+on:
+  issue_comment:
+    types:
+      - created
 
 permissions:
   contents: read
@@ -25,28 +28,35 @@ jobs:
         id: get-magic-value
         shell: python
         run: |
-          import re, os
+          import re
+          import os
+          
           comment = os.getenv('BRODAMAN_COMMENT', '')
           match = re.search(r'{{ env.MAGIC_COMMENT }}\s+(\S+)', comment)
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            if match:
-              print(f'VAL_FOUND=true', file=f)
-              print(f'MAGIC_VAL={match.group(1)}', file=f)
-            else:
-              print(f'VAL_FOUND=false', file=f)
+          
+          if match:
+            print(f'VAL_FOUND=true')
+            print(f'MAGIC_VAL={match.group(1)}')
+            with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f'VAL_FOUND=true\n')
+              f.write(f'MAGIC_VAL={match.group(1)}\n')
+          else:
+            print(f'VAL_FOUND=false')
+            with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f'VAL_FOUND=false\n')
         env:
-          BRODAMAN_COMMENT: ${{ github.event.comment.body }}
+          BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
-      - name: Run assignment_report.py with specified run name
+      - name: Run the evaluation script
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
-        run: python assignment_report.py ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
+        run: python src/eval.py ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
 
-      - name: Comment with Report URL
+      - name: Comment with the evaluation link
         if: success()
         run: |
           var fs = require('fs');
-          var reportUrl = fs.readFileSync('report_url.txt', 'utf-8').trim();
-          var msg = "You can find the comparison between the baseline run and this run [here](" + reportUrl + ")";
+          var WANDB_LINK = process.env.WANDB_LINK
+          var msg = `An evaluation of the new model for Broda-man is available [in this link](${WANDB_LINK})`
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
