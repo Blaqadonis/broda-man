@@ -55,6 +55,7 @@ jobs:
           WANDB_LINK=$(wandb run get_url)
           echo "WANDB_LINK=${WANDB_LINK}" >> $GITHUB_ENV
 
+          
           msg="An evaluation of the new model for Broda-man is available [in this link](${WANDB_LINK})"
           github.rest.issues.createComment({
             issue_number: context.issue.number,
