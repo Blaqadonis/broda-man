@@ -38,12 +38,12 @@ jobs:
             print(f'VAL_FOUND=true')
             print(f'MAGIC_VAL={match.group(1)}')
             with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-              f.write(f'VAL_FOUND=true\n')
-              f.write(f'MAGIC_VAL={match.group(1)}\n')
-          else:
-            print(f'VAL_FOUND=false')
-            with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-              f.write(f'VAL_FOUND=false\n')
+              if match:
+                print(f'VAL_FOUND=true', file=f)
+                print(f'MAGIC_VAL={match.group(1)}', file=f)
+              else:
+                print(f'VAL_FOUND=false', file=f)
+            
         env:
           BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
