@@ -11,7 +11,7 @@ permissions:
   pull-requests: write
 
 env:
-  MAGIC_COMMENT: "/brodaman"
+  BRODAMAN_COMMENT: "/brodaman"
 
 jobs:
   new-model-evaluation:
@@ -31,14 +31,14 @@ jobs:
           import os
 
           comment = os.getenv('BRODAMAN_COMMENT', '')
-          match = re.search(fr'{re.escape(env.MAGIC_COMMENT)}\s+(\S+)', comment)
+          match = re.search(fr'{re.escape(BRODAMAN_COMMENT)}\s+(\S+)', comment)
 
           if match:
             print(f'VAL_FOUND=true')
             print(f'MAGIC_VAL={match.group(1)}')
             with open(os.environ['GITHUB_ENV'], 'a') as f:
-              f.write(f'VAL_FOUND=true\n')
-              f.write(f'MAGIC_VAL={match.group(1)}\n')
+              print(f'VAL_FOUND=true\n')
+              print(f'MAGIC_VAL={match.group(1)}\n')
           else:
             print(f'VAL_FOUND=false')
 
@@ -49,7 +49,7 @@ jobs:
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: python src/eval.py ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
 
-        
+
       - name: Comment with the evaluation link
         if: success()
         run: |
