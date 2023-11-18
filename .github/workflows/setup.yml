@@ -49,6 +49,7 @@ jobs:
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: python src/eval.py ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
 
+        
       - name: Comment with the evaluation link
         if: success()
         run: |
