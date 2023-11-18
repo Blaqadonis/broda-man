@@ -1,0 +1,8 @@
+[
+    {
+        "input_text": "Location: Ikeja., Destination: National Stadium.",
+        "expected_output": "Modify this with the expected reply for Ikeja to National Stadium",
+        "model_output": "Broda-man dey here for you, my padi! To avoid traffic wahala, make you waka go Ikeja Under Bridge, from there enter Mobolaji Bank Anthony Way. Cruise down straight until you reach Maryland, then make small",
+        "BLEU_score": 8.90735602648238e-232
+    }
+]

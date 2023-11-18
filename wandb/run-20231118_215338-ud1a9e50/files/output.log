@@ -1,0 +1,17 @@
+
+Evaluation dataset saved to 'evaluation_dataset.jsonl' with 1 examples.
+[34m[1mwandb[39m[22m:   1 of 1 files downloaded.
+Traceback (most recent call last):
+  File "C:\Users\Odiaka\world\Data_Science\Datasets\broda-man\src\eval.py", line 98, in <module>
+    response = openai.ChatCompletion.create(
+  File "C:\Users\Odiaka\miniconda3\envs\klopp\lib\site-packages\openai\api_resources\chat_completion.py", line 25, in create
+    return super().create(*args, **kwargs)
+  File "C:\Users\Odiaka\miniconda3\envs\klopp\lib\site-packages\openai\api_resources\abstract\engine_api_resource.py", line 155, in create
+    response, _, api_key = requestor.request(
+  File "C:\Users\Odiaka\miniconda3\envs\klopp\lib\site-packages\openai\api_requestor.py", line 299, in request
+    resp, got_stream = self._interpret_response(result, stream)
+  File "C:\Users\Odiaka\miniconda3\envs\klopp\lib\site-packages\openai\api_requestor.py", line 710, in _interpret_response
+    self._interpret_response_line(
+  File "C:\Users\Odiaka\miniconda3\envs\klopp\lib\site-packages\openai\api_requestor.py", line 775, in _interpret_response_line
+    raise self.handle_error_response(
+openai.error.AuthenticationError: Incorrect API key provided: sk-Rghgg************************************************************************************************************************************************************************************************tEju. You can find your API key at https://platform.openai.com/account/api-keys.
