@@ -38,8 +38,8 @@ jobs:
             print(f'VAL_FOUND=true')
             print(f'MAGIC_VAL={match.group(1)}')
             with open(os.environ['GITHUB_ENV'], 'a') as f:
-              f.write(f'VAL_FOUND=true\n')
-              f.write(f'MAGIC_VAL={match.group(1)}\n')
+              print(f'VAL_FOUND=true\n')
+              print(f'MAGIC_VAL={match.group(1)}\n')
           else:
             print(f'VAL_FOUND=false')
 
