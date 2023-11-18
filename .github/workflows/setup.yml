@@ -43,7 +43,9 @@ jobs:
 
       - name: Run the evaluation script
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
-        run: python src/eval.py ${{ steps.get-magic-value.outputs.BRODAMAN_FINETUNE_MODEL_SUFFIX }}
+        run: python src/eval.py 
+        env:
+          BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.get-magic-value.outputs.BRODAMAN_FINETUNE_MODEL_SUFFIX }}
 
       - name: Comment with the evaluation link
         if: success()
