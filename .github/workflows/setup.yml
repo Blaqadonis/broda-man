@@ -24,26 +24,24 @@ jobs:
         run: echo "Magic comment detected"
 
       - name: Parse value from the magic command
-        if: steps.filter.outcome == 'success'
         id: get-magic-value
         shell: python
         run: |
           import re
           import os
-          
+
           comment = os.getenv('BRODAMAN_COMMENT', '')
-          match = re.search(r'{{ env.MAGIC_COMMENT }}\s+(\S+)', comment)
-          
+          match = re.search(fr'{re.escape(env.MAGIC_COMMENT)}\s+(\S+)', comment)
+
           if match:
             print(f'VAL_FOUND=true')
             print(f'MAGIC_VAL={match.group(1)}')
-            with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-              if match:
-                print(f'VAL_FOUND=true', file=f)
-                print(f'MAGIC_VAL={match.group(1)}', file=f)
-              else:
-                print(f'VAL_FOUND=false', file=f)
-            
+            with open(os.environ['GITHUB_ENV'], 'a') as f:
+              f.write(f'VAL_FOUND=true\n')
+              f.write(f'MAGIC_VAL={match.group(1)}\n')
+          else:
+            print(f'VAL_FOUND=false')
+
         env:
           BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
@@ -54,9 +52,10 @@ jobs:
       - name: Comment with the evaluation link
         if: success()
         run: |
-          var fs = require('fs');
-          var WANDB_LINK = process.env.WANDB_LINK
-          var msg = `An evaluation of the new model for Broda-man is available [in this link](${WANDB_LINK})`
+          WANDB_LINK=$(wandb run get_url)
+          echo "WANDB_LINK=${WANDB_LINK}" >> $GITHUB_ENV
+
+          msg="An evaluation of the new model for Broda-man is available [in this link](${WANDB_LINK})"
           github.rest.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
