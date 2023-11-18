@@ -47,7 +47,6 @@ jobs:
         env:
           BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
-          
       - name: Run the evaluation script
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: python src/eval.py ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
