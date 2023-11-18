@@ -31,7 +31,7 @@ jobs:
           import os
 
           comment = os.getenv('BRODAMAN_COMMENT', '')
-          match = re.search(fr'{re.escape(BRODAMAN_COMMENT)}\s+(\S+)', comment)
+          match = re.search(fr'{re.escape(os.getenv("BRODAMAN_COMMENT"))}\s+(\S+)', comment)
 
           if match:
             print(f'VAL_FOUND=true')
