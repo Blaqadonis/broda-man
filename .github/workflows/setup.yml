@@ -47,6 +47,10 @@ jobs:
         run: python src/eval.py 
         env:
           BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.get-magic-value.outputs.MODEL_SUFFIX }}
+          WANDB_ENTITY: Blaq  
+          WANDB_PROJECT: evaluation 
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
 
       - name: Comment with the evaluation link
         if: success()

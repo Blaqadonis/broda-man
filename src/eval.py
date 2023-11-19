@@ -15,7 +15,7 @@ if os.getenv("OPENAI_API_KEY") is None:
 assert os.getenv("OPENAI_API_KEY", "").startswith("sk-"), "This doesn't look like a valid OpenAI API key"
 print("OpenAI API key configured")
 # Set up WandB project and run for generating the evaluation dataset
-wandb.init(project="evaluation-dataset")
+run = wandb.init(project="evaluation")
 
 # Locations and destinations for evaluation
 evaluation_data = [
@@ -73,7 +73,7 @@ model_id_suffix = os.getenv('BRODAMAN_FINETUNE_MODEL_SUFFIX', '')
 model_id = base_model_id + str(model_id_suffix)
 
 # Initialize Weights & Biases for model evaluation
-run = wandb.init(project="evaluating-new-model", entity="blaq")
+#run = wandb.init(project="evaluating-new-model", entity="blaq")
 
 # Retrieve the evaluation dataset from WandB
 artifact = wandb.run.use_artifact("evaluation_dataset:latest")
