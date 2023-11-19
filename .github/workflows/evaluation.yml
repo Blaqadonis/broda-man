@@ -56,6 +56,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
         python src/eval.py
+        echo "WANDB_LINK=${{ steps.new-model-evaluation-report.outputs.WANDB_LINK }}"
       env:
         BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
         OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
