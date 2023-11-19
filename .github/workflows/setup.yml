@@ -36,6 +36,7 @@ jobs:
           if match:
             print('VAL_FOUND=true')
             print(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}')
+            echo "BRODAMAN_FINETUNE_MODEL_SUFFIX=${match.group(1)}" >> $GITHUB_ENV
           else:
             print('VAL_FOUND=false') 
         env:
