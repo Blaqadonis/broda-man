@@ -65,7 +65,9 @@ jobs:
 
       - name: Print WANDB_LINK
         id: print-wandb-link
-        run: echo "WANDB_LINK=${{ steps.new-model-evaluation-report.outputs.WANDB_LINK }}"
+        run: |
+          import os
+          os.getenv(WANDB_LINK, '')
 
       - name: Make a comment with the GitHub API
         uses: actions/github-script@v6
