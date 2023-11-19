@@ -46,7 +46,6 @@ jobs:
         env:
           BRODAMAN_COMMENT: "${{ github.event.comment.body }}"
 
-
       - name: Generate the evaluation report
         if: steps.parse-model-id.outputs.VAL_FOUND == 'true'
         id: new-model-evaluation-report
