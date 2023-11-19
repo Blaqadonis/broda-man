@@ -9,7 +9,6 @@ permissions:
 
 env:
   MAGIC_COMMENT: "/brodaman" 
-
 jobs:
   see-comment:
     # this filters for only comments made on a pull request
