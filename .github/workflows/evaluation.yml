@@ -51,7 +51,7 @@ jobs:
       if: steps.get-magic-value.outputs.VAL_FOUND == 'true'
       id: new-model-evaluation-report
       run: |
-        python src/eval.py
+       # python src/eval.py
       env:
         BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
       
