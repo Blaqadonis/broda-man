@@ -76,7 +76,7 @@ model_id = base_model_id + str(model_id_suffix)
 #run = wandb.init(project="evaluating-new-model", entity="blaq")
 
 # Retrieve the evaluation dataset from WandB
-artifact = wandb.run.use_artifact("evaluation_dataset:latest")
+artifact = wandb.run.use_artifact(artifact)
 artifact_dir = artifact.download()
 
 # Load the evaluation dataset
