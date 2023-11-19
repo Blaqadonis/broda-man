@@ -18,6 +18,12 @@ jobs:
     if: github.event.issue.pull_request != null
     runs-on: windows-latest
     steps:
+      - name: Get repo contents
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: pip install ghapi wandb
+  
       - name: Filter for magic comment
         id: filter
         if: contains(github.event.comment.body, '/brodaman')
@@ -35,8 +41,7 @@ jobs:
             
           if match:
             print('VAL_FOUND=true')
-            print(f'MODEL_SUFFIX={match.group(1)}')
-            echo "BRODAMAN_FINETUNE_MODEL_SUFFIX=$MODEL_SUFFIX" >> $GITHUB_ENV
+            print(f'BRODAMAN_FINETUNE_MODEL_SUFFIX={match.group(1)}')
           else:
             print('VAL_FOUND=false') 
         env:
@@ -46,7 +51,7 @@ jobs:
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: python src/eval.py 
         env:
-          BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.get-magic-value.outputs.MODEL_SUFFIX }}
+          BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.get-magic-value.outputs.BRODAMAN_FINETUNE_MODEL_SUFFIX }}
           WANDB_ENTITY: Blaq  
           WANDB_PROJECT: evaluation 
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
