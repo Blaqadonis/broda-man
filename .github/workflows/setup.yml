@@ -54,7 +54,6 @@ jobs:
         env:
           BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.parse-model-id.outputs.BRODAMAN_FINETUNE_MODEL_SUFFIX }}
 
-
       - name: Make a comment
         shell: python
         run: |
