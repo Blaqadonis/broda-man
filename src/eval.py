@@ -65,6 +65,7 @@ print(f"Evaluation dataset saved to 'evaluation_dataset.jsonl' with {len(evaluat
 # Hardcoded initial part of the model ID
 base_model_id = "ft:gpt-3.5-turbo-0613:personal:broda-man:"
 
+
 # Import the fine-tuning model ID suffix from the environment
 model_id_suffix = os.getenv('BRODAMAN_FINETUNE_MODEL_SUFFIX', '')
 #model_id_suffix = "8MMdTENP"
