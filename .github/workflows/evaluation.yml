@@ -67,7 +67,7 @@ jobs:
       if: steps.get-magic-value.outcome == 'success' 
       with:
         script: |
-           var msg = `👋 Hello!  You commented on this PR with a magic value of \`${process.env.MAGIC_VAL}\``
+           var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [in this report]\`${process.env.WANDB_LINK}\``
            github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -75,4 +75,4 @@ jobs:
               body: msg
             })
       env:
-        MAGIC_VAL: "${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
+        WANDB_LINK: "${{ steps.new-model-evaluation-report.outputs.WANDB_LINK }}"
