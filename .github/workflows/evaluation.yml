@@ -21,6 +21,9 @@ jobs:
       env:
         PAYLOAD: ${{ toJSON(github.event) }}
         
+    - name: Get repo contents
+      uses: actions/checkout@v4
+
     - name: filter for magic comment
       id: filter
       if: contains(github.event.comment.body, env.MAGIC_COMMENT)
