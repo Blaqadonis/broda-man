@@ -1,8 +1,0 @@
-[
-    {
-        "input_text": "Location: Ikeja., Destination: National Stadium.",
-        "expected_output": "Modify this with the expected reply for Ikeja to National Stadium",
-        "model_output": "Broda-man don show! To run comot from traffic for Ikeja reach National Stadium, I go yan say make you use Allen Avenue and connect to Mobolaji Bank Anthony Way. From Mobolaji Bank Anthony Way, you fit take Third",
-        "BLEU_score": 3.4450131449970394e-155
-    }
-]
