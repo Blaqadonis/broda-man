@@ -35,7 +35,6 @@ jobs:
           pip install ghapi wandb
           import re
           import os
-        
           comment = os.getenv('BRODAMAN_COMMENT', '')
           match = re.search(r'/brodaman[\s+](\S+)', comment)
             
