@@ -60,6 +60,8 @@ jobs:
         
       env:
         BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
       
     - name: Make a comment with the GitHub API
       uses: actions/github-script@v6
