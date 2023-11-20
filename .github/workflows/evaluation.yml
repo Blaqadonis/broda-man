@@ -71,7 +71,7 @@ jobs:
         if: steps.get-magic-value.outcome == 'success'
         with:
           script: |
-            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available in this [report](${process.env.WANDB_LINK})`
+            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available in this [report](${WANDB_LINK})`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
