@@ -60,7 +60,7 @@ jobs:
           python src/eval.py
 
           # Extract the WandB run URL from the logs and set it as an output
-          WANDB_LINK=$(grep -o 'https://wandb.ai/blaq/evaluation/runs/[a-zA-Z0-9]*' .\wandb\run-*\logs\* | head -1)
+          #WANDB_LINK=$(grep -o 'https://wandb.ai/blaq/evaluation/runs/[a-zA-Z0-9]*' .\wandb\run-*\logs\* | head -1)
         env:
           BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
