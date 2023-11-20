@@ -12,11 +12,10 @@ env:
 
 jobs:
   see-comment:
-    # this filters for only comments made on a pull request
-    if: (github.event.issue.pull_request != null)
+    if: github.event.issue.pull_request != null
     runs-on: windows-latest
     steps:
-      - name: see payload # this step is for debugging purposes only, so you can see the payload.
+      - name: See payload
         run: echo "PAYLOAD:\n${PAYLOAD}\n"
         env:
           PAYLOAD: ${{ toJSON(github.event) }}
@@ -24,10 +23,10 @@ jobs:
       - name: Get repo contents
         uses: actions/checkout@v4
 
-      - name: filter for brodaman comment
+      - name: Filter for Broda-man comment
         id: filter
         if: contains(github.event.comment.body, env.BRODAMAN_COMMENT)
-        run: echo "brodaman comment detected"
+        run: echo "Broda-man comment detected"
 
       - name: Parse value from the command
         if: steps.filter.outcome == 'success'
@@ -46,37 +45,37 @@ jobs:
         env:
           PR_COMMENT: ${{ github.event.comment.body }}
 
-      - name: print value of command
+      - name: Print value of command
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: echo "BRODAMAN_FINETUNE_MODEL_SUFFIX = ${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
+
+      - name: Install dependencies
+        id: installations
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
 
       - name: Generate the evaluation report
         if: steps.get-magic-value.outputs.VAL_FOUND == 'true'
         id: new-model-evaluation-report
         shell: python
         run: |
-          !pip install --upgrade pip
-          !pip install -r requirements.txt
           python src/eval.py
-      
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             print(f'Run complete.', file=f)
             print(f'WANDB_LINK={os.environ["WANDB_LINK"]}', file=f)
-      
       
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
         if: steps.get-magic-value.outcome == 'success' 
         with:
           script: |
-              var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available in this [report](${process.env.WANDB_LINK})`
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: msg
-              })
+            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available in this [report](${process.env.WANDB_LINK})`
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: msg
+            })
         env:
           WANDB_LINK: "${{ steps.new-model-evaluation-report.outputs.WANDB_LINK }}"
-      
-        
