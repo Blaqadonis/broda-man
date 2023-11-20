@@ -59,6 +59,7 @@ jobs:
           pip install -r requirements.txt
           python src/eval.py
       
+          
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             print(f'Run complete.')
             print(f'WANDB_LINK={os.environ["WANDB_LINK"]}', file=f)
