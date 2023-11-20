@@ -1,12 +1,12 @@
 name: Evaluate the new Broda-man model
-
+  
 on:
-  issue_comment:
-
+  issue_comment: 
+  
 permissions:
   contents: read
   issues: write
-  pull_requests: write
+  pull-requests: write
 
 env:
   BRODAMAN_COMMENT: "/brodaman"
