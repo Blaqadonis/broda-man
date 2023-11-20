@@ -1,7 +1,6 @@
-name: Listening For a PR Comment for Broda-man
+name: Run an evaluation on the new model
 
-on:
-  issue_comment: 
+on: issue_comment 
 
 permissions:
   contents: read
@@ -9,7 +8,7 @@ permissions:
   pull-requests: write
 
 env:
-  MAGIC_COMMENT: "/brodaman"
+  BRODAMAN_COMMENT: "/brodaman"
 
 jobs:
   see-comment:
@@ -25,19 +24,19 @@ jobs:
       - name: Get repo contents
         uses: actions/checkout@v4
 
-      - name: filter for magic comment
+      - name: filter for brodaman comment
         id: filter
-        if: contains(github.event.comment.body, env.MAGIC_COMMENT)
-        run: echo "magic comment detected"
+        if: contains(github.event.comment.body, env.BRODAMAN_COMMENT)
+        run: echo "brodaman comment detected"
 
-      - name: Parse value from the magic command
+      - name: Parse value from the command
         if: steps.filter.outcome == 'success'
         id: get-magic-value
         shell: python
         run: |
           import re, os
           comment = os.getenv('PR_COMMENT', '')
-          match = re.search('${{ env.MAGIC_COMMENT }}[\s+](\S+)', comment)
+          match = re.search('${{ env.BRODAMAN_COMMENT }}[\s+](\S+)', comment)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             if match:
               print(f'VAL_FOUND=true', file=f)
@@ -47,7 +46,7 @@ jobs:
         env:
           PR_COMMENT: ${{ github.event.comment.body }}
 
-      - name: print value of magic command
+      - name: print value of command
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: echo "BRODAMAN_FINETUNE_MODEL_SUFFIX = ${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
 
@@ -58,20 +57,17 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python src/eval.py
-
-          # Extract the WandB run URL from the logs and set it as an output
-          #WANDB_LINK=$(grep -o 'https://wandb.ai/blaq/evaluation/runs/[a-zA-Z0-9]*' .\wandb\run-*\logs\* | head -1)
-        env:
-          BRODAMAN_FINETUNE_MODEL_SUFFIX: ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
-
-      - name: Make a comment with the GitHub API
+      
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              print(f'Run complete.', file=f)
+              print(f'WANDB_LINK={os.environ['WANDB_LINK']}', file=f)
+      
+      - name: Make a comment with the ghapi
         uses: actions/github-script@v6
         if: steps.get-magic-value.outcome == 'success' 
         with:
           script: |
-              var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [in this report](${process.env.WANDB_LINK})`
+              var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available in this [report](${process.env.WANDB_LINK})`
               github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
@@ -80,4 +76,5 @@ jobs:
               })
         env:
           WANDB_LINK: "${{ steps.new-model-evaluation-report.outputs.WANDB_LINK }}"
+      
         
