@@ -1,11 +1,12 @@
 name: Run an evaluation on the new model
 
-on: issue_comment 
+on:
+  issue_comment:
 
 permissions:
   contents: read
   issues: write
-  pull-requests: write
+  pull_requests: write
 
 env:
   BRODAMAN_COMMENT: "/brodaman"
@@ -50,24 +51,24 @@ jobs:
         run: echo "BRODAMAN_FINETUNE_MODEL_SUFFIX = ${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
 
       - name: Install dependencies
-        id: installations
+        id: installations-and-evaluation
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
+          python src/eval.py
 
       - name: Generate the evaluation report
-        if: steps.get-magic-value.outputs.VAL_FOUND == 'true'
-        id: new-model-evaluation-report
+        if: steps.installations-and-evaluation.outcome == 'success'
+        id: export-link
         shell: python
         run: |
-          python src/eval.py
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             print(f'Run complete.', file=f)
             print(f'WANDB_LINK={os.environ["WANDB_LINK"]}', file=f)
-      
+
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
-        if: steps.get-magic-value.outcome == 'success' 
+        if: steps.get-magic-value.outcome == 'success'
         with:
           script: |
             var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available in this [report](${process.env.WANDB_LINK})`
@@ -78,4 +79,4 @@ jobs:
               body: msg
             })
         env:
-          WANDB_LINK: "${{ steps.new-model-evaluation-report.outputs.WANDB_LINK }}"
+          WANDB_LINK: "${{ steps.installations-and-evaluation.outputs.WANDB_LINK }}"
