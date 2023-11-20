@@ -1,4 +1,4 @@
-name: Run an evaluation on the new model
+name: Evaluate the new Broda-man model
 
 on:
   issue_comment:
@@ -12,7 +12,7 @@ env:
   BRODAMAN_COMMENT: "/brodaman"
 
 jobs:
-  see-comment:
+  evaluate-model:
     if: github.event.issue.pull_request != null
     runs-on: windows-latest
     steps:
@@ -63,8 +63,12 @@ jobs:
         shell: python
         run: |
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            print(f'Run complete.', file=f)
+            print(f'RUN_FINISHED=true', file=f)
             print(f'WANDB_LINK={os.environ["WANDB_LINK"]}', file=f)
+
+      - name: Print link
+        if: steps.installations-and-evaluation.outcome == 'success' && steps.export-link.outputs.RUN_FINISHED == 'true'
+        run: echo "WANDB_LINK = ${{ steps.export-link.outputs.WANDB_LINK }}"
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
