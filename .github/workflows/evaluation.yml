@@ -72,6 +72,7 @@ jobs:
             print(f'RUN_FINISHED=true', file=f)
             print(f'WANDB_LINK={os.environ["WANDB_LINK"]}', file=f)
 
+            
       - name: Print link
         if: steps.installations-and-evaluation.outcome == 'success' && steps.export-link.outputs.RUN_FINISHED == 'true'
         run: echo "WANDB_LINK = ${{ steps.export-link.outputs.WANDB_LINK }}"
