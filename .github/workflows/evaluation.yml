@@ -62,7 +62,6 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
 
-          
       - name: Generate the evaluation link
         if: steps.installations-and-evaluation.outcome == 'success'
         id: export-link
