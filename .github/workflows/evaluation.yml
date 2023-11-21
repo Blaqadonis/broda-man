@@ -67,6 +67,7 @@ jobs:
         id: export-link
         shell: python
         run: |
+          import os
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             print(f'RUN_FINISHED=true', file=f)
             print(f'WANDB_LINK={os.environ["WANDB_LINK"]}', file=f)
