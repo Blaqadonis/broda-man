@@ -32,7 +32,6 @@ jobs:
       - name: Parse value from the command
         if: steps.filter.outcome == 'success'
         id: get-magic-value
-        shell: python
         run: |
           import re, os
           comment = os.getenv('PR_COMMENT', '')
@@ -65,18 +64,11 @@ jobs:
         if: steps.installations-and-evaluation.outcome == 'success'
         id: extract-wandb-url
         run: |
-            import os, re
-  
-            # Read the log file
-            log_file_path = os.path.join(os.getenv('GITHUB_WORKSPACE'), '.wandb', 'log-latest.log')
-            with open(log_file_path, 'r') as log_file:
-                log_content = log_file.read()
-  
-            # Use regular expression to extract the URL
-            match = re.search(r'View run .* at: \Khttps://wandb.ai/[^\s]*', log_content)
-            WANDB_URL = match.group() if match else None
-            
-            echo "WANDB_URL=$WANDB_URL" >> $GITHUB_OUTPUT
+          python -c "import os, re; log_file_path = os.path.join(os.getenv('GITHUB_WORKSPACE'), '.wandb', 'log-latest.log'); \
+          with open(log_file_path, 'r') as log_file: log_content = log_file.read(); \
+          match = re.search(r'View run .* at: \Khttps://wandb.ai/[^\s]*', log_content); \
+          WANDB_URL = match.group() if match else None; \
+          print(f'WANDB_URL={WANDB_URL}')"
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
