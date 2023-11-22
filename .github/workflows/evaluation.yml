@@ -61,24 +61,19 @@ jobs:
           WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
-          
-      - name: Generate the evaluation link
+      - name: Extract WandB run URL
         if: steps.installations-and-evaluation.outcome == 'success'
-        id: export-link
+        id: extract-wandb-url
         run: |
-          echo "RUN_FINISHED=true" >> $GITHUB_OUTPUT
-          echo "WANDB_LINK=${WANDB_LINK}" >> $GITHUB_OUTPUT
-
-      - name: Print link
-        if: steps.installations-and-evaluation.outcome == 'success' && steps.export-link.outputs.RUN_FINISHED == 'true'
-        run: echo "WANDB_LINK = ${{ steps.export-link.outputs.WANDB_LINK }}"
+          WANDB_URL=$(grep -oP 'View run .* at: \Khttps://wandb.ai/[^ ]*' $GITHUB_WORKSPACE/.wandb/log-latest.log)
+          echo "WANDB_URL=$WANDB_URL" >> $GITHUB_OUTPUT
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
         if: steps.get-magic-value.outcome == 'success'
         with:
           script: |
-            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available in this [report](${WANDB_LINK})`
+            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available in this [report](${WANDB_URL})`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -86,4 +81,4 @@ jobs:
               body: msg
             })
         env:
-          WANDB_LINK: "${{ steps.export-link.outputs.WANDB_LINK }}"
+          WANDB_URL: "${{ steps.extract-wandb-url.outputs.WANDB_URL }}"
