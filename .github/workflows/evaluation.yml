@@ -64,14 +64,14 @@ jobs:
       - name: Extract WandB run URL
         if: steps.installations-and-evaluation.outcome == 'success'
         id: extract-wandb-url
+        shell: python
         run: |
-            python -c "import os, re; log_file_path = os.path.join(os.getenv('GITHUB_WORKSPACE'), '.wandb', 'log-latest.log'); \
-            with open(log_file_path, 'r') as log_file: log_content = log_file.read(); \
-            match = re.search(r'View run .* at: \Khttps://wandb.ai/[^\s]*', log_content); \
-            WANDB_URL = match.group() if match else None; \
-            print(f'WANDB_URL={WANDB_URL}')"
+            import os
+            with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              print(f'WANDB_URL={WANDB_URL}', file=f)
+        
 
-            
+
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
         if: steps.get-magic-value.outcome == 'success'
