@@ -65,12 +65,9 @@ jobs:
       - name: Generate the evaluation link
         if: steps.installations-and-evaluation.outcome == 'success'
         id: export-link
-        shell: python
         run: |
-          import os
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            print(f'RUN_FINISHED=true', file=f)
-            print(f'WANDB_LINK={os.environ["WANDB_LINK"]}', file=f)
+          echo "RUN_FINISHED=true" >> $GITHUB_OUTPUT
+          echo "WANDB_LINK=${WANDB_LINK}" >> $GITHUB_OUTPUT
 
       - name: Print link
         if: steps.installations-and-evaluation.outcome == 'success' && steps.export-link.outputs.RUN_FINISHED == 'true'
@@ -89,4 +86,4 @@ jobs:
               body: msg
             })
         env:
-          WANDB_LINK: "${{ steps.installations-and-evaluation.outputs.WANDB_LINK }}"
+          WANDB_LINK: "${{ steps.export-link.outputs.WANDB_LINK }}"
