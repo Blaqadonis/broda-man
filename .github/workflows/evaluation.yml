@@ -77,6 +77,7 @@ jobs:
           
           echo "WANDB_URL=$WANDB_URL" >> $GITHUB_OUTPUT
 
+          
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
         if: steps.get-magic-value.outcome == 'success'
