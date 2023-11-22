@@ -64,7 +64,6 @@ jobs:
       - name: Extract WandB run URL
         if: steps.installations-and-evaluation.outcome == 'success'
         id: extract-wandb-url
-        shell: python
         run: |
             import os, re
   
