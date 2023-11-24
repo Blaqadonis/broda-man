@@ -55,22 +55,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-          python src/eval.py
-        env:
-          BRODAMAN_FINETUNE_MODEL_SUFFIX: "${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
-          WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          python src/eva.py
+          python scripts/extract_wandb_url.py
 
-      - name: Extract WandB run URL
-        if: steps.installations-and-evaluation.outcome == 'success'
-        id: extract-wandb-url
-        shell: python
-        run: |
-            import os
-            with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-              WANDB_LINK = run.get_url()
-              print(f'WANDB_LINK={WANDB_LINK}', file=f)
-        
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
         if: steps.get-magic-value.outcome == 'success'
