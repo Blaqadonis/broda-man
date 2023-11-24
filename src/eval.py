@@ -144,5 +144,6 @@ os.environ["WANDB_LINK"] = WANDB_LINK
 print("Link: ", WANDB_LINK)
 print("Evaluation completed. Results logged to Weights & Biases.")
 
-# Print the link so it can be captured by GitHub Actions
-print(f"WANDB_LINK={WANDB_LINK}")
+# Save the Weights & Biases link to the GITHUB_OUTPUT file
+with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+    print(f'WANDB_LINK={WANDB_LINK}', file=f)
