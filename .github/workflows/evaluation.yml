@@ -68,7 +68,7 @@ jobs:
         run: |
             import os
             with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-              print(f'WANDB_URL={WANDB_URL}', file=f)
+              print(f'WANDB_LINK={WANDB_LINK}', file=f)
         
 
 
@@ -77,7 +77,7 @@ jobs:
         if: steps.get-magic-value.outcome == 'success'
         with:
           script: |
-            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available in this [report](${WANDB_URL})`
+            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available in this [report](${WANDB_LINK})`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -85,4 +85,4 @@ jobs:
               body: msg
             })
         env:
-          WANDB_URL: "${{ steps.extract-wandb-url.outputs.WANDB_URL }}"
+          WANDB_LINK: "${{ steps.extract-wandb-url.outputs.WANDB_LINK }}"
