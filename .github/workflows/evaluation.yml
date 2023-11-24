@@ -56,7 +56,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           python src/eva.py
-          python scripts/extract_wandb_url.py
+          python src/extract_wandb_url.py
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
