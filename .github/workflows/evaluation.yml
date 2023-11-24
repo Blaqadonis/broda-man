@@ -1,5 +1,5 @@
 name: Evaluate the new Broda-man model
-  
+
 on:
   issue_comment: 
   
@@ -66,11 +66,10 @@ jobs:
         id: extract-wandb-url
         shell: python
         run: |
-            import os
-            with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-              print(f'WANDB_LINK={WANDB_LINK}', file=f)
-        
-
+          import os
+          WANDB_LINK = "${{ steps.extract-wandb-url.outputs.WANDB_LINK }}"
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+            print(f'WANDB_LINK={WANDB_LINK}', file=f)
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
@@ -84,5 +83,3 @@ jobs:
               repo: context.repo.repo,
               body: msg
             })
-        env:
-          WANDB_LINK: "${{ steps.extract-wandb-url.outputs.WANDB_LINK }}"
