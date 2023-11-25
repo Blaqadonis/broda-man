@@ -44,7 +44,7 @@ jobs:
             if match:
               print(f'VAL_FOUND=true', file=f)
               print(f'MAGIC_VAL={match.group(1)}', file=f)
-              print(f'model_id=ft:gpt-3.5-turbo-0613:personal:broda-man:{match.group(1)}', file=f)
+              print(f'model_id={match.group(1)}', file=f)
             else:
               print(f'VAL_FOUND=false', file=f)
         env:
@@ -54,7 +54,7 @@ jobs:
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: |
           echo "BRODAMAN_FINETUNE_MODEL_SUFFIX = ${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
-          echo "model_id = ft:gpt-3.5-turbo-0613:personal:broda-man:${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
+          echo "model_id = ${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
 
       - name: Install dependencies
         id: installations-and-evaluation
@@ -130,15 +130,6 @@ jobs:
 
           print(f"Evaluation dataset saved to 'evaluation_dataset.jsonl' with {len(evaluation_examples)} examples.")
 
-          # Hardcoded initial part of the model ID
-          base_model_id = "ft:gpt-3.5-turbo-0613:personal:broda-man:"
-
-          # Import the fine-tuning model ID suffix from the environment
-          model_id_suffix = os.getenv('BRODAMAN_FINETUNE_MODEL_SUFFIX', '')
-          #model_id_suffix = "8MMdTENP"
-          # Concatenate the initial part and the extracted model ID suffix
-          model_id = base_model_id + str(os.getenv('MAGIC_VAL'))
-
           # Retrieve the evaluation dataset from WandB
           artifact = wandb.run.use_artifact(artifact)
           artifact_dir = artifact.download()
@@ -161,7 +152,7 @@ jobs:
                   {"role": "user", "content": f"Location: {location}, Destination: {destination}"}
               ]
               response = openai.ChatCompletion.create(
-                  model=model_id,
+                  model=os.getenv('MAGIC_VAL'),
                   messages=user_messages,
                   max_tokens=50  # Adjust max tokens as needed
               )
