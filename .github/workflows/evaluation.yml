@@ -58,8 +58,24 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-          python src/eva.py
-          python src/extract_wandb_url.py
+          python eva.py
+          python extract_wandb_url.py
+
+      - name: Extract WandB run URL
+        if: steps.installations-and-evaluation.outcome == 'success'
+        id: extract-wandb-url
+        shell: python
+        run: |
+          import os
+          import wandb
+          
+          # Load the saved WandB run
+          run = wandb.init()
+          
+          # Save the WandB run URL to the environment variable and GITHUB_OUTPUT file
+          WANDB_LINK = run.get_url()
+          with open(os.environ['GITHUB_ENV'], 'a') as f:
+            f.write(f"WANDB_LINK={WANDB_LINK}\n")
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
@@ -73,5 +89,3 @@ jobs:
               repo: context.repo.repo,
               body: msg
             })
-        env:
-          WANDB_LINK: "${{ steps.extract-wandb-url.outputs.WANDB_LINK }}"

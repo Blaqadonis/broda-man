@@ -142,7 +142,7 @@ wandb.finish()
 WANDB_LINK = run.get_url()
 
 # Save the Weights & Biases link to the GITHUB_ENV file
-with open(os.environ['GITHUB_ENV'], 'a') as f:
+with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
     f.write(f"WANDB_LINK={WANDB_LINK}\n")
 
 print("Link: ", WANDB_LINK)
