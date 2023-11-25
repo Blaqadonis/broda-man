@@ -136,7 +136,7 @@ jobs:
           model_id_suffix = os.getenv('BRODAMAN_FINETUNE_MODEL_SUFFIX', '')
           #model_id_suffix = "8MMdTENP"
           # Concatenate the initial part and the extracted model ID suffix
-          model_id = base_model_id + str(steps.get-magic-value.outputs.MAGIC_VAL)
+          model_id = base_model_id + str(os.getenv('MAGIC_VAL'))
 
           # Retrieve the evaluation dataset from WandB
           artifact = wandb.run.use_artifact(artifact)
@@ -203,8 +203,8 @@ jobs:
 
           # Save the Weights & Biases link to an environment variable
           os.environ["WANDB_LINK"] = WANDB_LINK
-          print("Link: ", WANDB_LINK)
-          print("Evaluation completed. Results logged to Weights & Biases.")
+          echo "Link: $WANDB_LINK"
+          echo "Evaluation completed. Results logged to Weights & Biases."
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
