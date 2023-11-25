@@ -57,7 +57,7 @@ jobs:
         id: installations-and-evaluation
         run: |
           python -m pip install --upgrade pip
-          python -m pip install openai wandb nltk
+          python -m pip install -r requirements.txt
 
       - name: Run evaluation script
         if: steps.installations-and-evaluation.outcome == 'success' && steps.get-magic-value.outcome == 'success'
