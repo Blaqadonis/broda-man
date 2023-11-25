@@ -201,10 +201,13 @@ jobs:
           # Get the Weights & Biases link
           WANDB_LINK = run.get_url()
 
-          # Save the Weights & Biases link to an environment variable
-          os.environ["WANDB_LINK"] = WANDB_LINK
-          echo "Link: $WANDB_LINK"
-          echo "Evaluation completed. Results logged to Weights & Biases."
+      - name: Save WandB link to environment variable
+        if: steps.get-magic-value.outcome == 'success'
+        run: |
+            echo "Link: $WANDB_LINK"
+            echo "WANDB_LINK=$WANDB_LINK" >> $GITHUB_ENV
+            echo "Evaluation completed. Results logged to Weights & Biases."
+  
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
