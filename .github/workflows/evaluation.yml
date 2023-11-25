@@ -136,7 +136,7 @@ jobs:
           model_id_suffix = os.getenv('BRODAMAN_FINETUNE_MODEL_SUFFIX', '')
           #model_id_suffix = "8MMdTENP"
           # Concatenate the initial part and the extracted model ID suffix
-          model_id = base_model_id + str(model_id_suffix)
+          model_id = base_model_id + str(steps.get-magic-value.outputs.MAGIC_VAL)
 
           # Retrieve the evaluation dataset from WandB
           artifact = wandb.run.use_artifact(artifact)
