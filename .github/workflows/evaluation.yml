@@ -152,7 +152,7 @@ jobs:
                   {"role": "user", "content": f"Location: {location}, Destination: {destination}"}
               ]
               response = openai.ChatCompletion.create(
-                  model=os.getenv('MAGIC_VAL'),
+                  model=model_id,
                   messages=user_messages,
                   max_tokens=50  # Adjust max tokens as needed
               )
