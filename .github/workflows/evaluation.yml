@@ -40,7 +40,7 @@ jobs:
           import re, os
           comment = os.getenv('PR_COMMENT', '')
           match = re.search('${{ env.BRODAMAN_COMMENT }}[\s+](\S+)', comment)
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+          with open(os.environ['GITHUB_ENV'], 'a') as f:
             if match:
               print(f'VAL_FOUND=true', file=f)
               print(f'MAGIC_VAL={match.group(1)}', file=f)
@@ -58,24 +58,12 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-          python eva.py
-          python extract_wandb_url.py
-
-      - name: Extract WandB run URL
+          python src/eva.py
+          python src/extract_wandb_url.py
+          
+      - name: Set WANDB_LINK in environment
         if: steps.installations-and-evaluation.outcome == 'success'
-        id: extract-wandb-url
-        shell: python
-        run: |
-          import os
-          import wandb
-          
-          # Load the saved WandB run
-          run = wandb.init()
-          
-          # Save the WandB run URL to the environment variable and GITHUB_OUTPUT file
-          WANDB_LINK = run.get_url()
-          with open(os.environ['GITHUB_ENV'], 'a') as f:
-            f.write(f"WANDB_LINK={WANDB_LINK}\n")
+        run: echo "WANDB_LINK=${{ steps.installations-and-evaluation.outputs.WANDB_LINK }}" >> $GITHUB_ENV
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
