@@ -15,6 +15,9 @@ jobs:
   evaluate-model:
     if: github.event.issue.pull_request != null
     runs-on: windows-latest
+    env:
+      WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
     steps:
       - name: See payload
         run: echo "PAYLOAD:\n${PAYLOAD}\n"
@@ -55,8 +58,8 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
-          python src/eva.py
-          python src/extract_wandb_url.py
+          python eva.py
+          python extract_wandb_url.py
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
