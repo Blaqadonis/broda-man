@@ -2,7 +2,6 @@ import json
 import os
 import openai
 import getpass
-import wandb
 from nltk.translate.bleu_score import sentence_bleu
 
 # OpenAI API key for generating the evaluation dataset
@@ -16,9 +15,6 @@ if not openai.api_key:
 
 assert openai.api_key.startswith("sk-"), "This doesn't look like a valid OpenAI API key"
 print("OpenAI API key configured")
-
-# Set up WandB project and run for generating the evaluation dataset
-wandb.init(project="evaluation")
 
 # Locations and destinations for evaluation
 evaluation_data = [
@@ -49,19 +45,11 @@ for data in evaluation_data:
 
     evaluation_examples.append(evaluation_example)
 
-# Log evaluation examples to WandB
-wandb.log({"evaluation_examples": evaluation_examples})
-
 # Save the evaluation dataset to a JSON file
 with open("evaluation_dataset.jsonl", "w") as jsonl_file:
     for example in evaluation_examples:
         json.dump(example, jsonl_file)
         jsonl_file.write("\n")
-
-# Log the evaluation dataset to WandB
-artifact = wandb.Artifact(name="evaluation_dataset", type="dataset")
-artifact.add_file("evaluation_dataset.jsonl")
-wandb.run.log_artifact(artifact)
 
 print(f"Evaluation dataset saved to 'evaluation_dataset.jsonl' with {len(evaluation_examples)} examples.")
 
@@ -74,21 +62,13 @@ model_id_suffix = os.getenv('BRODAMAN_FINETUNE_MODEL_SUFFIX', '')
 # Concatenate the initial part and the extracted model ID suffix
 model_id = base_model_id + str(model_id_suffix)
 
-# Initialize Weights & Biases for model evaluation
-run = wandb.init(project="evaluating-new-model", entity="blaq")
-
-# Retrieve the evaluation dataset from WandB
-artifact = wandb.run.use_artifact(artifact)
-artifact_dir = artifact.download()
-
-# Load the evaluation dataset
-with open(os.path.join(artifact_dir, "evaluation_dataset.jsonl"), "r") as jsonl_file:
-    evaluation_data = [json.loads(line) for line in jsonl_file]
+# Initialize OpenAI for model evaluation
+openai.init(api_key=openai.api_key)
 
 # Evaluate the model
 eval_results = []
 
-for example in evaluation_data:
+for example in evaluation_examples:
     location = example["messages"][0]["content"].split(":")[1].strip()
     destination = example["messages"][1]["content"].split(":")[1].strip()
     expected_reply = example["expected_reply"]
@@ -132,18 +112,4 @@ for example in evaluation_data:
 with open("evaluation_results.json", "w") as f:
     json.dump(eval_results, f, indent=4)
 
-# Log results to Weights & Biases
-wandb.log({"evaluation_results": eval_results})
-
-# Finish Weights & Biases run
-wandb.finish()
-
-# Get the Weights & Biases link
-WANDB_LINK = run.get_url()
-
-# Save the Weights & Biases link to the GITHUB_ENV file
-with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-    f.write(f"WANDB_LINK={WANDB_LINK}\n")
-
-print("Link: ", WANDB_LINK)
-print("Evaluation completed. Results logged to Weights & Biases.")
+print("Evaluation completed. Results logged to 'evaluation_results.json'.")
