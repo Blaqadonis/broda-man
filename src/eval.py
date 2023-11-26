@@ -6,7 +6,7 @@ import wandb
 from nltk.translate.bleu_score import sentence_bleu
 
 # Initialize WandB at the beginning
-wandb.init(project="Evaluating-Brodaman", entity= "Blaq")
+run = wandb.init(project="Evaluating-Brodaman", entity= "Blaq")
 
 # OpenAI API key for generating the evaluation dataset
 openai.api_key = os.getenv("OPENAI_API_KEY", "")
@@ -148,3 +148,11 @@ with open(evaluation_results_path, "w") as f:
 
 print("Evaluation completed. Results logged to 'evaluation_results.json'.")
 print("WandB Run Link (Artifact):", run_link_artifact)
+
+# Get the Weights & Biases link
+wandb_link = wandb.run.url
+
+# Save the Weights & Biases link to an environment variable
+os.environ["WANDB_link"] = wandb_link
+# Finish Weights & Biases run
+wandb.finish()

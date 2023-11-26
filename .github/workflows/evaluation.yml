@@ -64,32 +64,24 @@ jobs:
         id: eval-stage
         if: steps.installations-and-dependencies.outcome == 'success' && steps.get-magic-value.outputs.outcome == 'success'
         run: |
-          wandb init -p Evaluating-Brodaman
-          python src/eval.py
-          WANDB_link=$(wandb run get_url)
-          echo "WANDB_link=$WANDB_link" >> $GITHUB_ENV
 
-      - name: Initiate a new WandB run to retrieve the artifact
-        shell: python
-        run: |
-          import wandb
-          wandb.init(project="Evaluating-Brodaman")  # Replace with your WandB project name
-          run_link_artifact = wandb.run.url
-          echo "RUN_LINK_ARTIFACT=$run_link_artifact" >> $GITHUB_ENV
+          python src/eval.py
+        
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
         if: steps.eval-stage.outcome == 'success'
         with:
           script: |
-            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [here]($WANDB_link)`
+            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [here](${process.env.WANDB_link})`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: msg
             })
-  
+        env:
+          WANDB_link: "${{ steps.eval-stage.outputs.WANDB_link }}"
       - name: End the Workflow
         run: |
           echo "Workflow completed successfully."
