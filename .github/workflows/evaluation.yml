@@ -35,25 +35,25 @@ jobs:
 
       - name: Parse value from the command
         if: steps.filter.outcome == 'success'
-        id: get-model-id
+        id: get-magic-value
         shell: python
         run: |
           import re, os
           comment = os.getenv('PR_COMMENT', '')
           match = re.search('${{ env.BRODAMAN_COMMENT }}[\s+](\S+)', comment)
-          with open(os.environ['GITHUB_ENV'], 'a') as f:
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             if match:
               print(f'VAL_FOUND=true', file=f)
-              print(f'MODEL_ID={match.group(1)}', file=f)
+              print(f'MAGIC_VAL={match.group(1)}', file=f)
             else:
               print(f'VAL_FOUND=false', file=f)
         env:
           PR_COMMENT: ${{ github.event.comment.body }}
 
       - name: Print value of command
-        if: steps.get-model-id.outcome == 'success' && steps.get-model-id.outputs.VAL_FOUND == 'true'
+        if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: |
-          echo "BRODAMAN_FINETUNE_MODEL_ID = ${{ steps.get-model-id.outputs.MODEL_ID }}"
+          echo "BRODAMAN_FINETUNE_MODEL_ID = ${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
 
       - name: Install dependencies
         id: installations-and-dependencies
@@ -63,7 +63,7 @@ jobs:
 
       - name: Run evaluation script
         id: eval-stage
-        if: steps.installations-and-dependencies.outcome == 'success' && steps.get-model-id.outcome == 'success'
+        if: steps.installations-and-dependencies.outcome == 'success' && steps.get-magic-value.outputs.outcome == 'success'
         run: |
             wandb init -p Evaluating-Brodaman
             python src/eval.py
