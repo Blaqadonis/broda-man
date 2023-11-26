@@ -40,7 +40,7 @@ jobs:
           import re, os
           comment = os.getenv('PR_COMMENT', '')
           match = re.search('${{ env.BRODAMAN_COMMENT }}[\s+](\S+)', comment)
-          with open(os.environ['GITHUB_ENV'], 'a') as f:
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             if match:
               print(f'VAL_FOUND=true', file=f)
               print(f'MAGIC_VAL={match.group(1)}', file=f)
