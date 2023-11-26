@@ -1,9 +1,8 @@
 name: Evaluate the new Broda-man model
 
-on:
+on: 
   issue_comment:
-    types:
-      - created
+
 
 permissions:
   contents: read
@@ -66,10 +65,18 @@ jobs:
         id: eval-stage
         if: steps.installations-and-dependencies.outcome == 'success' && steps.get-model-id.outcome == 'success'
         run: |
-          run = wandb.init(project="Your_Project_Name")
+          wandb init -p Evaluating-Brodaman
           python src/eval.py
-          WANDB_link = run.get_url()
+          WANDB_link=$(wandb run get_url)
           echo "WANDB_link=$WANDB_link" >> $GITHUB_ENV
+
+      - name: Log evaluation dataset to WandB
+        run: |
+          wandb log "evaluation_dataset.jsonl"
+
+      - name: Log metrics to WandB
+        run: |
+          wandb log "evaluation_results.json"
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6

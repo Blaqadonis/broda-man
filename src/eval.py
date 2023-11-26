@@ -74,17 +74,18 @@ for data in evaluation_data:
     evaluation_examples.append(evaluation_example)
 
 # Save the evaluation dataset to a JSON file
-with open("evaluation_dataset.jsonl", "w") as jsonl_file:
+evaluation_dataset_path = "evaluation_dataset.jsonl"
+with open(evaluation_dataset_path, "w") as jsonl_file:
     for example in evaluation_examples:
         json.dump(example, jsonl_file)
         jsonl_file.write("\n")
 
-print(f"Evaluation dataset saved to 'evaluation_dataset.jsonl' with {len(evaluation_examples)} examples.")
+print(f"Evaluation dataset saved to '{evaluation_dataset_path}' with {len(evaluation_examples)} examples.")
 
 
-# Import the fine-tuning model ID suffix from the environment
+
+# Import the fine-tuning model ID from the environment
 model_id = os.getenv('BRODAMAN_FINETUNE_MODEL_ID', '')
-# model_id_suffix = "8MMdTENP"
 
 # Initialize OpenAI for model evaluation
 openai.api_key = openai.api_key  # Use the updated API key
@@ -133,7 +134,8 @@ for example in evaluation_examples:
         print("Warning: Expected reply is empty. Skipping BLEU score calculation.")
 
 # Save evaluation results to a JSON file
-with open("evaluation_results.json", "w") as f:
+evaluation_results_path = "evaluation_results.json"
+with open(evaluation_results_path, "w") as f:
     json.dump(eval_results, f, indent=4)
 
 print("Evaluation completed. Results logged to 'evaluation_results.json'.")
