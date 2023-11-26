@@ -66,6 +66,9 @@ jobs:
         run: |
 
           python src/eval.py
+        env:
+            BRODAMAN_FINETUNE_MODEL_ID : ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
+
         
 
       - name: Make a comment with the ghapi
