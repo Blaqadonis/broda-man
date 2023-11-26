@@ -1,4 +1,4 @@
 openai==0.28  #latest version does not support some functions used in this work like openai.File.create()
-wandb==0.12.0 #latest version conflicts with cli on github actions
+wandb==0.14.0 #latest version conflicts with cli on github actions
 nltk
 gradio
