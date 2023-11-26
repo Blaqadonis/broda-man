@@ -65,10 +65,11 @@ jobs:
         id: eval-stage
         if: steps.installations-and-dependencies.outcome == 'success' && steps.get-model-id.outcome == 'success'
         run: |
-          wandb init -p Evaluating-Brodaman
-          python src/eval.py
-          WANDB_link=$(wandb run get_url)
-          echo "WANDB_link=$WANDB_link" >> $GITHUB_ENV
+            wandb init -p Evaluating-Brodaman
+            python src/eval.py
+            WANDB_link=$(wandb run get_url)
+            echo "WANDB_link=$WANDB_link" >> $GITHUB_ENV
+        
 
       - name: Log evaluation dataset to WandB
         run: |

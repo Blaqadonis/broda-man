@@ -1,7 +1,7 @@
 import json
 import os
-import openai
 import getpass
+import openai
 from nltk.translate.bleu_score import sentence_bleu
 
 # OpenAI API key for generating the evaluation dataset
@@ -81,8 +81,6 @@ with open(evaluation_dataset_path, "w") as jsonl_file:
         jsonl_file.write("\n")
 
 print(f"Evaluation dataset saved to '{evaluation_dataset_path}' with {len(evaluation_examples)} examples.")
-
-
 
 # Import the fine-tuning model ID from the environment
 model_id = os.getenv('BRODAMAN_FINETUNE_MODEL_ID', '')
