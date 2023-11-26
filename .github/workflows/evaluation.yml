@@ -2,7 +2,8 @@ name: Evaluate the new Broda-man model
 
 on: 
   issue_comment:
-
+    types:
+      - created
 
 permissions:
   contents: read
@@ -15,7 +16,7 @@ env:
 jobs:
   evaluate-model:
     if: github.event.issue.pull_request != null
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -43,10 +44,10 @@ jobs:
           match = re.search('${{ env.BRODAMAN_COMMENT }}[\s+](\S+)', comment)
           with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
             if match:
-              print(f'VAL_FOUND=true', file=f)
-              print(f'MAGIC_VAL={match.group(1)}', file=f)
+              echo "VAL_FOUND=true" >> $GITHUB_ENV
+              echo "MAGIC_VAL=${match.group(1)}" >> $GITHUB_ENV
             else:
-              print(f'VAL_FOUND=false', file=f)
+              echo "VAL_FOUND=false" >> $GITHUB_ENV
         env:
           PR_COMMENT: ${{ github.event.comment.body }}
 
@@ -65,19 +66,13 @@ jobs:
         id: eval-stage
         if: steps.installations-and-dependencies.outcome == 'success' && steps.get-magic-value.outputs.outcome == 'success'
         run: |
-            wandb init -p Evaluating-Brodaman
-            python src/eval.py
-            WANDB_link=$(wandb run get_url)
-            echo "WANDB_link=$WANDB_link" >> $GITHUB_ENV
-        
-
-      - name: Log evaluation dataset to WandB
-        run: |
-          wandb log "evaluation_dataset.jsonl"
-
-      - name: Log metrics to WandB
-        run: |
-          wandb log "evaluation_results.json"
+          wandb init -p Evaluating-Brodaman
+          python src/eval.py
+          WANDB_username=$(wandb whoami)
+          WANDB_project=$(wandb run project)
+          WANDB_run_name=$(wandb run name)
+          WANDB_link="https://wandb.ai/$WANDB_username/$WANDB_project/runs/$WANDB_run_name"
+          echo "WANDB_link=$WANDB_link" >> $GITHUB_ENV
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6

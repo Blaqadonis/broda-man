@@ -2,7 +2,11 @@ import json
 import os
 import getpass
 import openai
+import wandb
 from nltk.translate.bleu_score import sentence_bleu
+
+# Initialize WandB at the beginning
+wandb.init(project="Evaluating-Brodaman", entity= "Blaq")
 
 # OpenAI API key for generating the evaluation dataset
 openai.api_key = os.getenv("OPENAI_API_KEY", "")
@@ -85,12 +89,18 @@ print(f"Evaluation dataset saved to '{evaluation_dataset_path}' with {len(evalua
 # Import the fine-tuning model ID from the environment
 model_id = os.getenv('BRODAMAN_FINETUNE_MODEL_ID', '')
 
+# Log the WandB run link as an artifact
+wandb.run.save()
+run_link_artifact = wandb.run.url
+
 # Initialize OpenAI for model evaluation
 openai.api_key = openai.api_key  # Use the updated API key
 openai.organization = None  # Remove the organization parameter if not using an organization
 
 # Evaluate the model
-eval_results = []
+eval_results = {
+    "evaluation_details": []
+}
 
 for example in evaluation_examples:
     location = example["messages"][0]["content"].split(":")[1].strip()
@@ -122,7 +132,7 @@ for example in evaluation_examples:
         # Compute BLEU score
         bleu_score = sentence_bleu(reference, candidate)
 
-        eval_results.append({
+        eval_results["evaluation_details"].append({
             "input_text": f"Location: {location}, Destination: {destination}",
             "expected_output": expected_reply,
             "model_output": model_output,
@@ -137,3 +147,4 @@ with open(evaluation_results_path, "w") as f:
     json.dump(eval_results, f, indent=4)
 
 print("Evaluation completed. Results logged to 'evaluation_results.json'.")
+print("WandB Run Link (Artifact):", run_link_artifact)
