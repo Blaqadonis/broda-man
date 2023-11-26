@@ -51,8 +51,9 @@ jobs:
 
       - name: Print value of command
         if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
+        shell: python
         run: |
-          echo "BRODAMAN_FINETUNE_MODEL_ID = ${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
+          print("BRODAMAN_FINETUNE_MODEL_ID = ${{ steps.get-magic-value.outputs.MAGIC_VAL }}")
 
       - name: Install dependencies
         id: installations-and-dependencies
@@ -74,7 +75,7 @@ jobs:
         if: steps.eval-stage.outcome == 'success'
         with:
           script: |
-            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [here](${process.env.WANDB_link})`
+            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [here](${WANDB_link})`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
@@ -82,7 +83,7 @@ jobs:
               body: msg
             })
         env:
-          WANDB_link: "${{ steps.eval-stage.outputs.WANDB_link }}"
+          WANDB_link: "${{ steps.eval-stage.outputs.run_link_artifact}}"
       - name: End the Workflow
         run: |
           echo "Workflow completed successfully."
