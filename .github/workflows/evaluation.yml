@@ -62,9 +62,7 @@ jobs:
           
       - name: Run evaluation script
         id: eval-stage
-        if: steps.installations-and-dependencies.outcome == 'success' && steps.get-magic-value.outputs.outcome == 'success'
         run: |
-
           python src/eval.py
         env:
             BRODAMAN_FINETUNE_MODEL_ID : ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
