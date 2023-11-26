@@ -1,9 +1,7 @@
 name: Evaluate the new Broda-man model
 
-on: 
+on:
   issue_comment:
-    types:
-      - created
 
 permissions:
   contents: read
@@ -42,12 +40,12 @@ jobs:
           import re, os
           comment = os.getenv('PR_COMMENT', '')
           match = re.search('${{ env.BRODAMAN_COMMENT }}[\s+](\S+)', comment)
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+          with open(os.environ['GITHUB_ENV'], 'a') as f:
             if match:
-              echo "VAL_FOUND=true" >> $GITHUB_ENV
-              echo "MAGIC_VAL=${match.group(1)}" >> $GITHUB_ENV
+              print(f'VAL_FOUND=true', file=f)
+              print(f'MAGIC_VAL={match.group(1)}', file=f)
             else:
-              echo "VAL_FOUND=false" >> $GITHUB_ENV
+              print(f'VAL_FOUND=false', file=f)
         env:
           PR_COMMENT: ${{ github.event.comment.body }}
 
@@ -66,27 +64,29 @@ jobs:
         id: eval-stage
         if: steps.installations-and-dependencies.outcome == 'success' && steps.get-magic-value.outputs.outcome == 'success'
         run: |
-          wandb init -p Evaluating-Brodaman
           python src/eval.py
-          WANDB_username=$(wandb whoami)
-          WANDB_project=$(wandb run project)
-          WANDB_run_name=$(wandb run name)
-          WANDB_link="https://wandb.ai/$WANDB_username/$WANDB_project/runs/$WANDB_run_name"
-          echo "WANDB_link=$WANDB_link" >> $GITHUB_ENV
 
-      - name: Make a comment with the ghapi
+      - name: Initiate a new WandB run to retrieve the artifact
+        shell: python
+        run: |
+          import wandb
+          wandb.init(project="Evaluating-Brodaman")  # Replace with your WandB project name
+          run_link_artifact = wandb.run.url
+          print( "RUN_LINK_ARTIFACT=$run_link_artifact")
+
+      - name: Make a comment with the updated link
         uses: actions/github-script@v6
         if: steps.eval-stage.outcome == 'success'
         with:
           script: |
-            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [here]($WANDB_link)`
+            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [here]($RUN_LINK_ARTIFACT)`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: msg
             })
-  
+
       - name: End the Workflow
         run: |
           echo "Workflow completed successfully."
