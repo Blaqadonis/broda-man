@@ -1,6 +1,7 @@
 name: Evaluate the new Broda-man model
 
-on: issue_comment
+on: 
+  issue_comment
 
 permissions:
   contents: read
@@ -8,11 +9,11 @@ permissions:
   pull-requests: write
 
 env:
-  BRODAMAN_COMMENT: "/brodaman"
+  BRODAMAN_COMMENT: '/brodaman'
 
 jobs:
   evaluate-model:
-    if: github.event.issue.pull_request != null
+    if: github.event.issue.pull_request != null && contains(github.event.comment.body, '/brodaman')
     runs-on: windows-latest
     env:
       WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
