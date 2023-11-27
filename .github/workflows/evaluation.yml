@@ -1,7 +1,6 @@
 name: Evaluate the new Broda-man model
 
-on: 
-  issue_comment:
+on: issue_comment
 
 permissions:
   contents: read
