@@ -156,5 +156,10 @@ wandb_link = wandb.run.url
 # Save the Weights & Biases link to an environment variable
 os.environ["WANDB_link"] = wandb_link
 
+# Save the WandB run link to a file
+wandb_link_file_path = "wandb_link.txt"
+with open(wandb_link_file_path, "w") as file:
+    file.write(run_link_artifact)
+
 # Finish Weights & Biases run
 wandb.finish()
