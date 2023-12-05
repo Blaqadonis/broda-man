@@ -154,6 +154,7 @@ print("WandB Run Link (Artifact):", run_link_artifact)
 wandb_link = wandb.run.url
 
 # Save the Weights & Biases link to an environment variable
-#os.environ["WANDB_link"] = wandb_link
+os.environ["WANDB_link"] = wandb_link
+
 # Finish Weights & Biases run
 wandb.finish()
