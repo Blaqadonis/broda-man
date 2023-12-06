@@ -74,14 +74,13 @@ jobs:
         run: |
               with open('wandb_link.txt', 'r') as f:
                 wandbLink = f.read().strip()
-              echo "WANDB_LINK=$wandbLink" >> $GITHUB_ENV
-        shell: python
-          
+             
+    
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
         if: steps.eval-stage.outcome == 'success'
         with:
-          script: |
+         script: |
                 var wandbLink = process.env.WANDB_LINK;
                 var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [here](${wandbLink})`
                 github.rest.issues.createComment({
@@ -90,4 +89,3 @@ jobs:
                   repo: context.repo.repo,
                   body: msg
                 })
-          
