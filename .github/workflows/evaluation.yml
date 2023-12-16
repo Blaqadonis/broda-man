@@ -39,18 +39,17 @@ jobs:
         run: |
           import re, os
           comment = os.getenv('PR_COMMENT', '')
-          match = re.search('${{ env.BRODAMAN_COMMENT }}[\s+](\S+)', comment)
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            if match:
-              print(f'VAL_FOUND=true', file=f)
-              print(f'MAGIC_VAL={match.group(1)}', file=f)
-            else:
-              print(f'VAL_FOUND=false', file=f)
+          match = re.search(r'${{ env.BRODAMAN_COMMENT }}\s+(\S+)', comment)
+          if match:
+            print(f"::set-output name=MAGIC_VAL::{match.group(1)}")
+            print(f"::set-output name=VAL_FOUND::true")
+          else:
+            print("::set-output name=VAL_FOUND::false")
         env:
           PR_COMMENT: ${{ github.event.comment.body }}
 
       - name: Print value of command
-        if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
+        if: steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: echo "BRODAMAN_FINETUNE_MODEL_ID = ${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
 
       - name: Install dependencies
@@ -64,6 +63,13 @@ jobs:
         env:
           BRODAMAN_FINETUNE_MODEL_ID: ${{ steps.get-magic-value.outputs.MAGIC_VAL }}
 
+      - name: Upload evaluation results as an artifact
+        if: steps.eval-stage.outcome == 'success'
+        uses: actions/upload-artifact@v2
+        with:
+          name: evaluation-results
+          path: evaluation_results.json
+
       - name: Read Weights & Biases run link
         id: read-wandb-link
         run: |
@@ -72,12 +78,13 @@ jobs:
         shell: pwsh
 
       - name: Make a comment with the ghapi
-        uses: actions/github-script@v6
         if: steps.eval-stage.outcome == 'success'
+        uses: actions/github-script@v6
         with:
           script: |
             var wandbLink = "${{ steps.read-wandb-link.outputs.WANDB_LINK }}";
-            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [here](${wandbLink})`
+            var artifactUrl = `https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}/artifacts`;
+            var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [here](${wandbLink}). You can download the evaluation results [here](${artifactUrl}).`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
