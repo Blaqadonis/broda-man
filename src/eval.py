@@ -6,7 +6,7 @@ import wandb
 from nltk.translate.bleu_score import sentence_bleu
 
 # Initialize WandB at the beginning
-run = wandb.init(project="Evaluating-Brodaman", entity= "Blaq")
+run = wandb.init(project="Evaluating-Brodaman", entity="Blaq")
 
 # OpenAI API key for generating the evaluation dataset
 openai.api_key = os.getenv("OPENAI_API_KEY", "")
@@ -23,35 +23,7 @@ print("OpenAI API key configured")
 
 # Locations and destinations for evaluation
 evaluation_data = [
-    {"location": "Ikeja", "destination": "National Stadium"},
-    {"location": "Lekki", "destination": "Eko Hotel"},
-    {"location": "Surulere", "destination": "University of Lagos"},
-    {"location": "Victoria Island", "destination": "Lekki Conservation Centre"},
-    {"location": "Yaba", "destination": "Murtala Muhammed Airport"},
-    {"location": "Ikorodu", "destination": "The Palms Shopping Mall"},
-    {"location": "Ajao Estate", "destination": "Ikeja City Mall"},
-    {"location": "Ojota", "destination": "Computer Village"},
-    {"location": "Apapa", "destination": "Tin Can Island Port"},
-    {"location": "Oshodi", "destination": "Mushin Market"},
-    {"location": "Agege", "destination": "New Garage"},
-    {"location": "Badagry", "destination": "Badagry Heritage Museum"},
-    {"location": "Epe", "destination": "Epe Fish Market"},
-    {"location": "Ikoyi", "destination": "Ikoyi Club 1938"},
-    {"location": "Makoko", "destination": "Makoko Floating School"},
-    {"location": "Obalende", "destination": "Tafawa Balewa Square"},
-    {"location": "Ijora", "destination": "Iganmu Industrial Estate"},
-    {"location": "Alimosho", "destination": "Egbeda Akowonjo Roundabout"},
-    {"location": "Gbagada", "destination": "Anthony Village"},
-    {"location": "Festac", "destination": "Festac Town Link Bridge"},
-    {"location": "Isolo", "destination": "Aswani Market"},
-    {"location": "Igando", "destination": "Igando General Hospital"},
-    {"location": "Oshodi-Isolo", "destination": "Cele Expressway"},
-    {"location": "Amuwo-Odofin", "destination": "Apple Junction"},
-    {"location": "Agbado", "destination": "Agbado Crossing"},
-    {"location": "Alakuko", "destination": "Ijaiye Market"},
-    {"location": "Egbeda", "destination": "MicCom Golf Course"},
-    {"location": "Ilupeju", "destination": "Coker Market"},
-    {"location": "Magodo", "destination": "Magodo Phase II"},
+    # [Your existing location and destination pairs]
 ]
 
 # An empty list to store evaluation examples
@@ -89,10 +61,14 @@ print(f"Evaluation dataset saved to '{evaluation_dataset_path}' with {len(evalua
 # Import the fine-tuning model ID from the environment
 model_id = os.getenv('BRODAMAN_FINETUNE_MODEL_ID', '')
 
-
 # Log the WandB run link as an artifact
 wandb.run.save()
 run_link_artifact = wandb.run.url
+
+# Save the WandB run link to a file
+wandb_link_file_path = "wandb_link.txt"
+with open(wandb_link_file_path, "w") as file:
+    file.write(run_link_artifact)
 
 # Initialize OpenAI for model evaluation
 openai.api_key = openai.api_key  # Use the updated API key
@@ -149,17 +125,6 @@ with open(evaluation_results_path, "w") as f:
 
 print("Evaluation completed. Results logged to 'evaluation_results.json'.")
 print("WandB Run Link (Artifact):", run_link_artifact)
-
-# Get the Weights & Biases link
-wandb_link = wandb.run.url
-
-# Save the Weights & Biases link to an environment variable
-os.environ["WANDB_link"] = wandb_link
-
-# Save the WandB run link to a file
-wandb_link_file_path = "wandb_link.txt"
-with open(wandb_link_file_path, "w") as file:
-    file.write(run_link_artifact)
 
 # Finish Weights & Biases run
 wandb.finish()

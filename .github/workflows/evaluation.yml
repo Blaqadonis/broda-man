@@ -72,8 +72,9 @@ jobs:
       - name: Read Weights & Biases run link
         id: read-wandb-link
         run: |
-              with open('wandb_link.txt', 'r') as f:
-                wandbLink = f.read().strip()
+          # Open the file and read the URL
+          with open('wandb_link.txt', 'r') as f:
+              wandbLink = f.read().strip()
              
     
       - name: Make a comment with the ghapi
