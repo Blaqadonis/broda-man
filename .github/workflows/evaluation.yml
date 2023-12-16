@@ -72,9 +72,10 @@ jobs:
       - name: Read Weights & Biases run link
         id: read-wandb-link
         run: |
-          # Open the file and read the URL
-          with open('wandb_link.txt', 'r') as f:
-              wandbLink = f.read().strip()
+              $wandbLink = Get-Content -Path wandb_link.txt -Raw
+              echo "::set-output name=WANDB_LINK::$wandbLink"
+        shell: pwsh
+          
              
     
       - name: Make a comment with the ghapi
