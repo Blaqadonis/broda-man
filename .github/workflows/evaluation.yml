@@ -35,22 +35,21 @@ jobs:
       - name: Parse value from the command
         if: steps.filter.outcome == 'success'
         id: get-magic-value
-        shell: python
         run: |
           import re, os
           comment = os.getenv('PR_COMMENT', '')
-          match = re.search('${{ env.BRODAMAN_COMMENT }}[\s+](\S+)', comment)
-          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
-            if match:
-              print(f'VAL_FOUND=true', file=f)
-              print(f'MAGIC_VAL={match.group(1)}', file=f)
-            else:
-              print(f'VAL_FOUND=false', file=f)
+          match = re.search(r'${{ env.BRODAMAN_COMMENT }}\s+(\S+)', comment)
+          if match:
+            print(f"::set-output name=MAGIC_VAL::{match.group(1)}")
+            print(f"::set-output name=VAL_FOUND::true")
+          else:
+            print("::set-output name=VAL_FOUND::false")
         env:
           PR_COMMENT: ${{ github.event.comment.body }}
+        shell: python
 
       - name: Print value of command
-        if: steps.get-magic-value.outcome == 'success' && steps.get-magic-value.outputs.VAL_FOUND == 'true'
+        if: steps.get-magic-value.outputs.VAL_FOUND == 'true'
         run: echo "BRODAMAN_FINETUNE_MODEL_ID = ${{ steps.get-magic-value.outputs.MAGIC_VAL }}"
 
       - name: Install dependencies
@@ -67,16 +66,18 @@ jobs:
       - name: Read Weights & Biases run link
         id: read-wandb-link
         run: |
-          $wandbLink = Get-Content -Path wandb_link.txt -Raw
-          echo "::set-output name=WANDB_LINK::$wandbLink"
-        shell: pwsh
+          import os
+          with open('wandb_link.txt', 'r') as file:
+              wandb_link = file.read().strip()
+          os.system(f'echo "WANDB_LINK={wandb_link}" >> $GITHUB_ENV')
+        shell: python
 
       - name: Make a comment with the ghapi
         uses: actions/github-script@v6
-        if: steps.eval-stage.outcome == 'success'
+        if: steps.read-wandb-link.outcome == 'success'
         with:
           script: |
-            var wandbLink = "${{ steps.read-wandb-link.outputs.WANDB_LINK }}";
+            var wandbLink = process.env.WANDB_LINK;
             var msg = `👋 Hi, this is 🅱🅻🅰🆀. An evaluation of the new model for Broda-man is available [here](${wandbLink})`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
